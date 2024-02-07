@@ -1,27 +1,36 @@
 // app Router.jsx
-import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
-import LoginForm from '../pages/LoginForm'
-import RegisterForm from '../pages/RegisterForm'
-import useAuth from '../hooks/useAuth'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import UserPage from '../pages/users/UserPage'
-import AdminPage from '../pages/admin/AdminPage'
-import UserProfile from '../pages/users/UserProfile'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import LoginForm from '../pages/LoginForm';
+import RegisterForm from '../pages/RegisterForm';
+import useAuth from '../hooks/useAuth';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import UserProduct from '../pages/users/UserProduct';
+import AdminPage from '../pages/admin/AdminPage';
+import UserProfile from '../pages/users/UserProfile';
+import NotFound from '../components/NotFound';
+import HomePage from '../pages/HomePage';
+
 // สร้าง Router สำหรับผู้ใช้ที่ยังไม่ได้เข้าสู่ระบบ
 const guestRouter = createBrowserRouter([
   {
     path: '/',
-    element: <>
-      <Header />
-      <Outlet />
-      <Footer/>
-    </>,
+    element: (
+      <>
+        <Header />
+        <Outlet />
+        <Footer />
+      </>
+    ),
     children: [
-      // หน้าหลักที่เป็นหน้า login
-      { index: true, element: <LoginForm /> },
+      // หน้าหลัก
+      { index: true, element: <HomePage /> },
+      // หน้าเข้าสู่ระบบ
+      { path: '/login', element: <LoginForm /> },
       // หน้าลงทะเบียน
-      { path: '/register', element: <RegisterForm />}
+      { path: '/register', element: <RegisterForm /> },
+      // เพิ่มเส้นทางสำหรับ 404 Not Found
+      { path: '*', element: <NotFound /> }
     ]
   }
 ]);
@@ -30,16 +39,21 @@ const guestRouter = createBrowserRouter([
 const userRouter = createBrowserRouter([
   {
     path: '/',
-    element: <>
-      <Header />
-      <Outlet />
-      <Footer/>
-    </>,
-    children : [
+    element: (
+      <>
+        <Header />
+        <Outlet />
+        <Footer />
+      </>
+    ),
+    children: [
       // หน้าหลักสำหรับผู้ใช้ที่เข้าสู่ระบบแล้ว
-      { index: true, element: <UserPage /> },
+      { index: true, element: <UserProduct /> },
       // หน้ารายการสิ่งที่ต้องทำสำหรับผู้ใช้ที่เข้าสู่ระบบแล้ว
-      { path: '/Profile', element: <UserProfile/>}
+      { path: '/UserProduct', element: <UserProduct /> },
+      { path: '/Profile', element: <UserProfile /> },
+      // เพิ่มเส้นทางสำหรับ 404 Not Found
+      { path: '*', element: <NotFound /> },
     ]
   }
 ]);
@@ -48,10 +62,12 @@ const userRouter = createBrowserRouter([
 const adminRouter = createBrowserRouter([
   {
     path: '/',
-    element: <>
-      <Outlet />
-    </>,
-    children : [
+    element: (
+      <>
+        <Outlet />
+      </>
+    ),
+    children: [
       // หน้าหลักสำหรับผู้ใช้ที่เป็น Admin
       { index: true, element: <AdminPage /> },
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin

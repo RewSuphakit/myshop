@@ -77,7 +77,7 @@ model Payments {
 model Orders {
   order_id   Int          @id @default(autoincrement())
   user_id    Int
-  order_date DateTime
+  order_date DateTime     @default(now())
   status     Status       @default(pending)
   user       Users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
   orderItems OrderItems[]
@@ -115,8 +115,8 @@ model Products {
   product_id     Int          @id @default(autoincrement())
   name           String?
   description    String?
-  price          Float
-  stock_quantity Int
+  price          Float    
+  stock_quantity Int          
   image          String
   orderItems     OrderItems[]
   reviews        Reviews[]
