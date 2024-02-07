@@ -38,7 +38,7 @@ export default function RegisterForm() {
   return (
     <div className=" text-gray-900 flex justify-center ">
       <div className="max-w-screen-xl  m-0 sm:m-10 bg-white shadow sm:rounded-2xl flex justify-center  flex-row-reverse flex-1">
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 animate-fade-left animate-once animate-ease-linear">
           <h1 className="text-2xl xl:text-3xl font-extrabold  text-center">
             Sign up
           </h1>
@@ -117,7 +117,7 @@ export default function RegisterForm() {
 
         <div className="flex-1  text-center hidden lg:flex">
           <div
-            className=" xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+            className=" xl:m-16 w-full bg-contain bg-center bg-no-repeat animate-jump animate-once animate-ease-in-out"
             style={{
               backgroundImage:
                 "url('https://cdn.discordapp.com/attachments/822871594091151401/1204441126807801947/img.png?ex=65d4be36&is=65c24936&hm=51856758e4054380ac37c1ca4c96d27adfbb3d03297daa7fb34d1ef56dffe9e2&')",
