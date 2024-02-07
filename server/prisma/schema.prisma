@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  User
+  Admin
+}
+
+enum Status {
+  pending
+  Succeed
+}
+
+model Users {
+  user_id           Int                  @id @default(autoincrement())
+  first_name        String
+  last_name         String
+  email             String               @unique
+  password          String
+  role              Role                @default(User)
+  addresses         Address[] 
+  shoppingCartItems ShoppingCart_Items[]
+  orders            Orders[]
+  reviews           Reviews[]
+  created_at        DateTime              @default(now())
+  updated_at        DateTime              @updatedAt
+}
+
+model Address {
+  address_id     Int    @id @default(autoincrement())
+  user_id        Int
+  recipient_name String?
+  address_line1  String?
+  address_line2  String?
+  city           String?
+  state          String?
+  postal_code    String?
+  phone          String? 
+  user           Users  @relation(fields: [user_id], references: [user_id],onDelete: Cascade,onUpdate: Cascade)
+  created_at     DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updated_at     DateTime @updatedAt @map("updated_at") @db.Timestamp(0) @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+}
+
+model ShoppingCart_Items {
+  cart_item_id Int      @id @default(autoincrement())
+  user_id      Int
+  payment_id   Int
+  quantity     Int
+  added_date   DateTime
+  user         Users    @relation(fields: [user_id], references: [user_id],onDelete: Cascade,onUpdate: Cascade)
+  payment      Payments @relation(fields: [payment_id], references: [payment_id],onDelete: Cascade,onUpdate: Cascade)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model Payments {
+  payment_id         Int                  @id @default(autoincrement())
+  order_id           Int
+  payment_method     String
+  payment_date       DateTime
+  total_amount       Float
+  order              Orders               @relation(fields: [order_id], references: [order_id],onDelete: Cascade,onUpdate: Cascade)
+  ShoppingCart_Items ShoppingCart_Items[]
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+}
+
+model Orders {
+  order_id   Int          @id @default(autoincrement())
+  user_id    Int
+  order_date DateTime
+  status     Status       @default(pending)
+  user       Users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  orderItems OrderItems[]
+  payments   Payments[]
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+}
+
+model Reviews {
+  review_id   Int      @id @default(autoincrement())
+  product_id  Int
+  user_id     Int
+  rating      Int
+  comment     String
+  review_date DateTime
+  product     Products @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: Cascade)
+  user        Users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model OrderItems {
+  order_item_id  Int      @id @default(autoincrement())
+  order_id       Int
+  product_id     Int
+  quantity       Int
+  price_per_item Float
+  order          Orders   @relation(fields: [order_id], references: [order_id], onDelete: Cascade, onUpdate: Cascade)
+  product        Products @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: Cascade)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+}
+
+model Products {
+  product_id     Int          @id @default(autoincrement())
+  name           String?
+  description    String?
+  price          Float
+  stock_quantity Int
+  image          String
+  orderItems     OrderItems[]
+  reviews        Reviews[]
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+}
