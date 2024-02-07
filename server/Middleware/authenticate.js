@@ -1,5 +1,5 @@
 // middleware/authenticate.js
-
+// ตรวจเช็ค Token
 const jwt = require('jsonwebtoken');
 const prisma = require('../models/db');
 
