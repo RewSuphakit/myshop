@@ -17,6 +17,6 @@ export default {
     require('tailwindcss-animated'),
   ],
   daisyui: {
-    themes: [ "winter",],
+    themes: [ "winter"],
   },
 }
