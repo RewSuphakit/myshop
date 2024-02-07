@@ -83,6 +83,6 @@ exports.getUserProfile = async (req, res) => {
     orders,
     reviews
   };
+   res.status(200).json(userProfile);
 
-  res.json(userProfile);
 };
