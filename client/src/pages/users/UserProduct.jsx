@@ -1,9 +1,9 @@
 import React from 'react'
-
+import CarouselCustomNavigation from '../../layouts/Carousel'
 function UserProduct() {
   return (
-    <div>
-     แสดงสินค้าโชห่วย
+    <div className="min-h-screen ">
+       <CarouselCustomNavigation/>
     </div>
   )
 }

@@ -35,8 +35,8 @@ const Header = () => {
   );
 
   return ( 
-    <div className="border">
-   <div className="navbar  container mx-auto  rounded-lg">
+    <div className="border f">
+   <div className="navbar sticky top-0 z-50 container mx-auto rounded-lg">
   <div className="navbar-start ">
     <div className="dropdown ">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -44,14 +44,8 @@ const Header = () => {
       </div>
       <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ">
         <li>  <Link to="/">Home</Link></li>
-        <li>
-          <a>Product</a>
-          <ul className="p-2">
-            <li><a>Product 1</a></li>
-            <li><a>Product 2</a></li>
-          </ul>
-        </li>
         <li><a>Contact</a></li>
+        <li><a>about</a></li>
       </ul>
     </div>
     <a className="btn btn-ghost text-xl">{user?.user_id ? [user.first_name, ' ', user.last_name] : 'Guest'}</a>
@@ -59,16 +53,8 @@ const Header = () => {
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1 z-10">
       <li>  <Link to="/">Home</Link></li>
-      <li>
-        <details>
-          <summary>Product</summary>
-          <ul className="p-4">
-            <li className="p-1"><a>REW</a></li>
-            <li className="p-1"><a>FERN</a></li>
-          </ul>
-        </details>
-      </li>
       <li><a>Contact</a></li>
+      <li><a>about</a></li>
     </ul>
   </div>
   

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
+import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Address = () => {
@@ -58,7 +59,7 @@ const Address = () => {
         setPostalCode('');
         setPhone('');
         setShowModal(false);
-        alert("Successfully added address");
+        toast.success('Address added successfully!');
       } else {
         console.error("Error adding address: ", res.data.message);
         alert("Failed to add address. Please try again later.");

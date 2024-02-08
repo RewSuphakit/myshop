@@ -36,7 +36,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className=" text-gray-900 flex justify-center ">
+    <div className=" text-gray-900 flex justify-center mb-4">
       <div className="max-w-screen-xl  m-0 sm:m-10 bg-white shadow sm:rounded-2xl flex justify-center  flex-row-reverse flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 animate-fade-left animate-once animate-ease-linear">
           <h1 className="text-2xl xl:text-3xl font-extrabold  text-center">
