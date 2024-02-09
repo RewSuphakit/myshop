@@ -12,7 +12,7 @@ function AuthContextProvider(props) {
   // สร้าง state เพื่อเก็บข้อมูลผู้ใช้และสถานะการโหลด
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-
+  
   // useEffect ทำงานครั้งแรกเพื่อตรวจสอบสถานะการเข้าสู่ระบบ
   useEffect(() => {
     const run = async () => {
@@ -47,7 +47,7 @@ function AuthContextProvider(props) {
     // ลบ token ใน localStorage
     localStorage.removeItem('token')
   }
-
+   
   // ส่งค่า value ที่ต้องการให้ Context มีไปใน child components
   return (
     <AuthContext.Provider value={{ user, setUser, loading, logout }}>

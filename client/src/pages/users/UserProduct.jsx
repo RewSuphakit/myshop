@@ -1,9 +1,14 @@
 import React from 'react'
-import CarouselCustomNavigation from '../../layouts/Carousel'
+import Carousel from '../../layouts/Carousel'
+import Product from '../../layouts/Product'
+import ProductDetails from '../../layouts/ProductDetails'
 function UserProduct() {
   return (
     <div className="min-h-screen ">
-       <CarouselCustomNavigation/>
+      <div className="container mx-auto">
+       <Carousel/>
+       <Product />
+       </div>
     </div>
   )
 }

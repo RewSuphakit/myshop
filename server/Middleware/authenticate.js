@@ -24,10 +24,6 @@ module.exports = async (req, res, next) => {
       throw new Error('Unauthorized: User not found');
     }
 
-    // // เพิ่มการตรวจสอบ Role ที่นี่
-    // if (user.role !== 'Admin') {
-    //   throw new Error('Unauthorized: User does not have permission');
-    // }
 
     delete user.password;
     req.user = user;

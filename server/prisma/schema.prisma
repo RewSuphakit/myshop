@@ -51,17 +51,17 @@ model Address {
 }
 
 model ShoppingCart_Items {
-  cart_item_id Int      @id @default(autoincrement())
-  user_id      Int
-  payment_id   Int
-  quantity     Int
-  added_date   DateTime
-  user         Users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
-  payment      Payments @relation(fields: [payment_id], references: [payment_id], onDelete: Cascade, onUpdate: Cascade)
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  cart_item_id       Int       @id @default(autoincrement())
+  user_id            Int
+  product_id         Int 
+  quantity           Int       @default(0)
+  user               Users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  product            Products  @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: Cascade) 
+ created_at     DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updated_at     DateTime @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")) @updatedAt @map("updated_at") @db.Timestamp(0)
+  payment            Payments? @relation(fields: [payment_ref_id], references: [payment_id], onDelete: Cascade, onUpdate: Cascade) // เปลี่ยนชื่อฟิลด์เป็น payment_ref_id
+  payment_ref_id     Int?      // เปลี่ยนชื่อฟิลด์เป็น payment_ref_id
 }
-
 model Payments {
   payment_id         Int                  @id @default(autoincrement())
   order_id           Int
@@ -112,18 +112,19 @@ model OrderItems {
 }
 
 model Products {
-  product_id          Int          @id @default(autoincrement())
-  name                String?
-  description         String?
-  price               Float
-  stock_quantity      Int
-  image               String
-  orderItems          OrderItems[]
-  reviews             Reviews[]
-  created_at          DateTime     @default(now())
-  updated_at          DateTime     @updatedAt
-  Category            Category?    @relation(fields: [Category_id], references: [category_id])
-  Category_id Int?
+  product_id         Int                  @id @default(autoincrement())
+  name               String?
+  description        String?
+  price              Float
+  stock_quantity     Int
+  image              String
+  orderItems         OrderItems[]
+  reviews            Reviews[]
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+  Category           Category?            @relation(fields: [Category_id], references: [category_id], onDelete: Cascade, onUpdate: Cascade)
+  Category_id        Int?
+  ShoppingCart_Items ShoppingCart_Items[]
 }
 
 model Category {

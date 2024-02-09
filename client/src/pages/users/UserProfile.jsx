@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import  Address  from './address'
-
+import { FaAddressBook } from "react-icons/fa";
+import { ImProfile } from "react-icons/im";
 const UserProfile = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('personal');
@@ -16,8 +17,8 @@ const UserProfile = () => {
     <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
       <div className="w-full lg:w-1/3"> {/* ใช้ flexbox เพื่อเรียงแนวตั้งในหน้าจอขนาดเล็กและเรียงแนวนอนในหน้าจอขนาดใหญ่ */}
         <div className="flex flex-col gap-2 justify-end"> {/* ใช้ flexbox เพื่อเรียงปุ่มไปทางขวา */}
-          <button className={`btn ${activeTab === 'personal' && 'btn-primary'}`} onClick={() => handleTabClick('personal')}>ข้อมูลส่วนตัว</button>
-          <button className={`btn ${activeTab === 'address' && 'btn-primary'}`} onClick={() => handleTabClick('address')}>ที่อยู่</button>
+          <button className={`btn ${activeTab === 'personal' && 'btn-primary'}`} onClick={() => handleTabClick('personal')}><ImProfile />ข้อมูลส่วนตัว</button>
+          <button className={`btn ${activeTab === 'address' && 'btn-primary'}`} onClick={() => handleTabClick('address')}><FaAddressBook />ที่อยู่</button>
           <button className={`btn ${activeTab === 'orderStatus' && 'btn-primary'}`} onClick={() => handleTabClick('orderStatus')}>Order Status</button>
           <button className={`btn ${activeTab === 'orderHistory' && 'btn-primary'}`} onClick={() => handleTabClick('orderHistory')}>Order History</button>
           <button className={`btn ${activeTab === 'favoriteProducts' && 'btn-primary'}`} onClick={() => handleTabClick('favoriteProducts')}>Favorite Products</button>
