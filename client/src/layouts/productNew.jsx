@@ -54,7 +54,7 @@ const ProductNew = () => {
                     <Slider ref={sliderRef} {...settings}>
                       {products.slice(0, 6).map(product => (
     <Link to={`/ProductDetails/${product.product_id}`} key={product.product_id}>
-        <div className="bg-white p-4 shadow-md rounded-md">
+        <div className="bg-white p-4 m-4 shadow-md rounded-md">
             <img src={`../images/${product.image}`} alt="product" />
             <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
             <p className="mb-4 text-gray-600">{product.Category.name}</p>

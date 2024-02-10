@@ -5,7 +5,7 @@ import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { MdHistory } from "react-icons/md";
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -32,9 +32,29 @@ const Header = () => {
   }, [user?.user_id]);
 
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    Swal.fire({
+      title: "คุณแน่ใจหรือไม่",
+      text: "คุณต้องการออกจากระบบ!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText:"ยกเลิก",
+      confirmButtonText: "ออกจากระบบ"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "ออกจากระบบสำเร็จ!",
+          text: "ขอคุณที่ใช่บริการ.",
+          icon: "success"
+        }).then(() => {
+          logout(); // ทำการ logout หลังจากกดยืนยัน
+          navigate('/'); // ทำการ redirect ไปยังหน้าหลักหลังจาก logout
+        });
+      }
+    });
   };
+  
 
   const finalNav = user?.user_id && (
     <>

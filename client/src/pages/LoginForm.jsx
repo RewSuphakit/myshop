@@ -33,7 +33,7 @@ export default function LoginForm() {
         text: `Welcome ${rs1.data.email}`,
         confirmButtonText: 'OK'
       });
-      navigate('/UserProduct');
+      navigate('/');
     } catch (err) {
       if (err.response && err.response.status === 401) {
         Swal.fire({

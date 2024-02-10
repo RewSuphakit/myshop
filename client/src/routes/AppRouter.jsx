@@ -74,10 +74,11 @@ const adminRouter = createBrowserRouter([
     children: [
       // หน้าหลักสำหรับผู้ใช้ที่เป็น Admin
       { index: true, element: <AdminPage /> },
+      { path: '/AdminPage', element: <AdminPage /> },
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin
     ]
   }
-]);
+]); 
 
 // ตรวจสอบสถานะการเข้าสู่ระบบของผู้ใช้และเลือก Router ที่เหมาะสม
 export default function AppRouter() {
