@@ -70,19 +70,28 @@ exports.login = async (req, res ) => {
 };
 
 exports.getUserProfile = async (req, res) => {
-  const { user_id, first_name, last_name, email, role, addresses, shoppingCartItems, orders, reviews } = req.user;
+  try {
+    const { user_id, first_name, last_name, email, role, addresses, shoppingCartItems, orders, reviews } = req.user;
 
-  const userProfile = {
-    user_id,
-    first_name,
-    last_name,
-    email,
-    role,
-    addresses,
-    shoppingCartItems,
-    orders,
-    reviews
-  };
-   res.status(200).json(userProfile);
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (role !== 'Admin' && role !== 'User') {
+      return res.status(403).json({ error: 'Unauthorized: Invalid user role' });
+    }
+
+    const userProfile = {
+      user_id,
+      first_name,
+      last_name,
+      email,
+      role,
+      addresses,
+      shoppingCartItems,
+      orders,
+      reviews
+    };
   
+    res.status(200).json(userProfile);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };

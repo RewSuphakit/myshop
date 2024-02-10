@@ -5,6 +5,8 @@ const authenticate = require('../Middleware/authenticate');
 const { read, list, create, update, remove } = require('../Controllers/productController');
 const { listCategories, createCategory, updateCategory, removeCategory } = require('../Controllers/categoryController');
 const  {addToCart,getCartItems,deleteCartItem,updateCartItems} = require('../Controllers/cartController')
+const {listReviews,addReview,updateReview,deleteReview} = require('../Controllers/reviewsController')
+
 // http://localhost:8000/api/products/
 // Require controller modules.
 router.get('/products', list);
@@ -18,6 +20,12 @@ router.get('/categories', listCategories);
 router.post('/categories', authenticate, createCategory);
 router.put('/categories/:id', authenticate, updateCategory);
 router.delete('/categories/:id', authenticate, removeCategory);
+// Router for reviews
+// http://localhost:8000/api/reviews/
+router.get('/reviews/:id',authenticate,listReviews)
+router.post("/reviews/:id", authenticate, addReview)
+router.put("/reviews/:id", authenticate, updateReview)
+router.delete("/reviews/:id", authenticate, deleteReview)
 // http://localhost:8000/api/cart/
 // Routes for Cart
 router.post("/cart",authenticate, addToCart)

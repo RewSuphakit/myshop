@@ -17,7 +17,6 @@ exports.addToCart = async (req, res) => {
         if (isNaN(parsedUserId) || isNaN(parsedProductId) || isNaN(parsedQuantity) || parsedQuantity <= 0) {
             return res.status(400).json({ error: 'Invalid userId, productId, or quantity' });
         }
-
         // ตรวจสอบว่ามีสินค้าในตะกร้าหรือไม่
         let cart = await prisma.shoppingCart_Items.findFirst({
             where: {
