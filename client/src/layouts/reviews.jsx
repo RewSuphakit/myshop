@@ -131,12 +131,17 @@ const cancelEditReview = () => {
   setEditedComment('');
 };
 
-// Function to handle submitting the edited review
 const submitEditedReview = async () => {
   try {
     let token = localStorage.getItem('token');
     const response = await axios.put(`http://localhost:8000/api/reviews/${editingReviewId}`, {
       comment: editedComment,
+      // Include updated user data in the request
+      user: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        // สามารถรวมข้อมูลอื่นๆ ที่ต้องการอัปเดตได้ตามต้องการ
+      }
     }, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -146,7 +151,8 @@ const submitEditedReview = async () => {
       // Update the review in the state
       setReviews(reviews.map(review => {
         if (review.review_id === editingReviewId) {
-          return { ...review, comment: editedComment };
+          // Update the comment in the review
+          return { ...review, user: user, comment: editedComment };
         }
         return review;
       }));
@@ -161,10 +167,6 @@ const submitEditedReview = async () => {
     alert('Error updating review. Please try again later.');
   }
 };
-
-
-
-  
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
