@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
+app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRoutes);
 app.use('/address',addressRoutes)
 // api/product
