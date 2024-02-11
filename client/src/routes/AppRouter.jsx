@@ -75,6 +75,8 @@ const adminRouter = createBrowserRouter([
       // หน้าหลักสำหรับผู้ใช้ที่เป็น Admin
       { index: true, element: <AdminPage /> },
       { path: '/AdminPage', element: <AdminPage /> },
+        
+      { path: '*', element: <NotFound /> },
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin
     ]
   }

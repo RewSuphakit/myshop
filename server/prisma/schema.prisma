@@ -119,8 +119,8 @@ model Products {
   image              String
   orderItems         OrderItems[]
   reviews            Reviews[]
-  created_at         DateTime             @default(now())
-  updated_at         DateTime             @updatedAt
+  created_at         DateTime             @default(now()) @map("created_at") @db.Timestamp(0)
+  updated_at         DateTime             @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")) @updatedAt @map("updated_at") @db.Timestamp(0)
   Category           Category?            @relation(fields: [Category_id], references: [category_id], onDelete: Cascade, onUpdate: Cascade)
   Category_id        Int?
   ShoppingCart_Items ShoppingCart_Items[]

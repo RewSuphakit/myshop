@@ -101,14 +101,19 @@ const Product = () => {
         </div>
       </div>
       {currentProducts.length > 0
-        ? <div className="grid grid-cols-3 gap-4">
+        ? <div className="grid grid-cols-4 gap-4">
             {currentProducts.map(product =>
               <Link
                 to={`/ProductDetails/${product.product_id}`}
                 key={product.product_id}
+             
               >
-                <div className="bg-white p-4 shadow-md rounded-md">
-                  <img src={`../images/${product.image}`} alt="product" />
+                <div className="bg-white p-4   shadow-md rounded-md">
+                {product.image ? ( // เช็คว่ามีรูปภาพหรือไม่
+                            <img src={product.image} alt={product.name} className="w-full h-96 object-contain"/>
+                        ) : (
+                            <div className="h-32 w-full bg-gray-200"></div> // ถ้าไม่มีรูปภาพ
+                        )}
                   <h2 className="text-lg font-semibold mb-2">
                     {product.name}
                   </h2>
