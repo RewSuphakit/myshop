@@ -58,7 +58,6 @@ exports.addToCart = async (req, res) => {
     }
 };
 
-// ดึงข้อมูลสินค้าในตะกร้า
 exports.getCartItems = async (req, res) => {
     try {
         const { id: userId } = req.params;
@@ -81,8 +80,19 @@ exports.getCartItems = async (req, res) => {
                 product: true
             }
         });
-
-        return res.status(200).json({ cartItems });
+        
+        // Map cart items to include product image URLs
+        const cartItemsWithImages = cartItems.map(item => {
+            return {
+                ...item,
+                product: {
+                    ...item.product,
+                    image: item.product.image ? `http://localhost:8000/${item.product.image.replace(/\\/g, '/')}` : null
+                }
+            };
+        });
+          
+        return res.status(200).json({ cartItems: cartItemsWithImages });
     } catch (error) {
         console.error('Error getting cart items:', error);
         return res.status(500).json({ error: 'Internal server error' });
