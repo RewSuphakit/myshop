@@ -1,6 +1,33 @@
 import React from 'react'
-
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
 function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    Swal.fire({
+      title: "คุณแน่ใจหรือไม่",
+      text: "คุณต้องการออกจากระบบ!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText:"ยกเลิก",
+      confirmButtonText: "ออกจากระบบ"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "ออกจากระบบสำเร็จ!",
+          text: "ขอคุณที่ใช่บริการ.",
+          icon: "success"
+        }).then(() => {
+          logout(); // ทำการ logout หลังจากกดยืนยัน
+          navigate('/'); // ทำการ redirect ไปยังหน้าหลักหลังจาก logout
+        });
+      }
+    });
+  };
   return (
     <div>
     <div className="navbar bg-base-100">
@@ -23,7 +50,9 @@ function Navbar() {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">ออกจากระบบ</a>
+  <Link to="#" onClick={handleLogout} className="btn btn-ghost text-sm">
+       ออกจากระบบ
+        </Link>
   </div>
 </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-
+import { toast } from 'react-toastify';
 function Reviews() {
   const [newComment, setNewComment] = useState('');
   const [rating, setRating] = useState(5);
@@ -47,18 +47,22 @@ function Reviews() {
       });
 
       if (response.status === 201) {
-        alert('Comment added successfully!');
+        toast.success('Comment added successfully!',{
+          position: "top-center"
+        });
         setNewComment('');
 
         const newReview = response.data.review;
         addCommentToReviews(newReview); // Add the new comment to the reviews array
       } else {
         console.error('Failed to add comment:', response.data);
-        alert('Failed to add comment. Please try again later.');
+        toast.error('Failed to add comment. Please try again later.');
       }
     } catch (error) {
       console.error('Error adding comment:', error);
-      alert('Error adding comment. Please try again later.');
+      toast.error('Error adding comment. Please try again later.',{
+        position: "top-center"
+      });
     }
   };
 
@@ -102,7 +106,9 @@ const handleDeleteReview = async (id) => {
     });
 
     if (response.status === 204) {
-      alert('Review deleted successfully!');
+      toast.success('Review deleted successfully!',{
+        position: "top-center"
+      });
       // Remove the deleted review from the state
       setReviews(reviews.filter(review => review.review_id !== id));
     } else {
@@ -147,7 +153,9 @@ const submitEditedReview = async () => {
     });
 
     if (response.status === 200) {
-      alert('Review updated successfully!');
+      toast.success('Review updated successfully!',{
+        position: "top-center"
+      });
       // Update the review in the state
       setReviews(reviews.map(review => {
         if (review.review_id === editingReviewId) {
@@ -220,16 +228,18 @@ const submitEditedReview = async () => {
     )}
     <p>Rating: {review.rating}</p>
     <div className="absolute top-0 right-0 flex gap-2">
-      {editingReviewId === review.review_id ? (
-        <>
-          <button className="btn btn-success" onClick={submitEditedReview}>Save</button>
-          <button className="btn btn-secondary" onClick={cancelEditReview}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <button className="btn btn-primary" onClick={() => startEditReview(review.review_id, review.comment)}>Edit</button>
-          <button className="btn btn-danger" onClick={() => handleDeleteReview(review.review_id)}>Delete</button>
-        </>
+      {user && user.user_id === review.user_id && ( // เพิ่มเงื่อนไขตรวจสอบว่ามีผู้ใช้เข้าสู่ระบบและ user_id เท่ากับ user_id ของความคิดเห็น
+        editingReviewId === review.review_id ? (
+          <>
+            <button className="btn btn-success" onClick={submitEditedReview}>Save</button>
+            <button className="btn btn-secondary" onClick={cancelEditReview}>Cancel</button>
+          </>
+        ) : (
+          <>
+            <button className="btn btn-primary" onClick={() => startEditReview(review.review_id, review.comment)}>Edit</button>
+            <button className="btn btn-danger" onClick={() => handleDeleteReview(review.review_id)}>Delete</button>
+          </>
+        )
       )}
     </div>
   </div>
