@@ -111,7 +111,7 @@ function AddProductForm() {
                 <textarea
                   id="description"
                   className="textarea textarea-bordered w-full"
-                  rows="5"
+                  rows="3"
                   name="description"
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)}
