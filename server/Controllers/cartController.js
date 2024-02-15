@@ -1,6 +1,7 @@
 const prisma = require('../models/db');
 
-// เพิ่มสินค้าลงในตะกร้า
+
+
 exports.addToCart = async (req, res) => {
     try {
         const { userId, productId, quantity } = req.body;
@@ -29,7 +30,6 @@ exports.addToCart = async (req, res) => {
         });
 
         if (!cart) {
-            // ถ้ายังไม่มีสินค้าในตะกร้า จะสร้างสินค้าใหม่
             await prisma.shoppingCart_Items.create({
                 data: {
                     user_id: parsedUserId,
@@ -38,8 +38,6 @@ exports.addToCart = async (req, res) => {
                 },
             });
         } else {
-            // ถ้ามีสินค้าอยู่แล้วในตะกร้า
-            // เพิ่มจำนวนสินค้าในตะกร้าเมื่อ productId ซ้ำซ้อน
             const updatedQuantity = cart.quantity + parsedQuantity;
             await prisma.shoppingCart_Items.update({
                 where: {
@@ -62,7 +60,6 @@ exports.getCartItems = async (req, res) => {
     try {
         const { id: userId } = req.params;
         
-        // Ensure userId is a valid integer
         if (!userId) {
             return res.status(400).json({ error: 'userId is required' });
         }
@@ -81,7 +78,6 @@ exports.getCartItems = async (req, res) => {
             }
         });
         
-        // Map cart items to include product image URLs
         const cartItemsWithImages = cartItems.map(item => {
             return {
                 ...item,
@@ -99,18 +95,16 @@ exports.getCartItems = async (req, res) => {
     }
 };
 
-// อัปเดตจำนวนสินค้าในตะกร้า
+
 exports.updateCartItems = async (req, res) => {
     try {
         // แยก cartItemId และ quantity จากพารามิเตอร์ของคำขอ
         const { id:cartItemId } = req.params;
         const { quantity } = req.body;
 
-        // ตรวจสอบให้แน่ใจว่า cartItemId และ quantity เป็น integer ที่ถูกต้อง
         const parsedCartItemId = parseInt(cartItemId);
         const parsedQuantity = parseInt(quantity);
 
-        // ถ้า cartItemId หรือ quantity ไม่ใช่ตัวเลขหรือ quantity น้อยกว่า 0
         // ให้ส่งข้อความแจ้งเตือนว่าข้อมูลไม่ถูกต้อง
         if (isNaN(parsedCartItemId) || isNaN(parsedQuantity) || parsedQuantity < 0) {
             return res.status(400).json({ error: 'Invalid cartItemId or quantity' });
@@ -123,12 +117,12 @@ exports.updateCartItems = async (req, res) => {
             }
         });
 
-        // ถ้าไม่มีรายการสินค้า
+
         if (!cartItem) {
             return res.status(404).json({ error: 'Cart item not found' });
         }
 
-        // อัปเดตจำนวนสินค้าในตะกร้า
+
         await prisma.shoppingCart_Items.update({
             where: {
                 cart_item_id: parsedCartItemId

@@ -100,6 +100,7 @@ function AddProductForm() {
                   id="name"
                   className="input input-bordered w-full"
                   name="name"
+                  required
                   value={name} 
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -112,6 +113,7 @@ function AddProductForm() {
                   id="description"
                   className="textarea textarea-bordered w-full"
                   rows="3"
+                  required
                   name="description"
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)}
@@ -171,6 +173,7 @@ function AddProductForm() {
                   type="number"
                   id="price"
                   className="input input-bordered w-full"
+                  required
                   name="price"
                   min="0"
                   value={price} 
@@ -199,6 +202,7 @@ function AddProductForm() {
               <select
                 id="category"
                 className="border rounded-md py-1 px-2"
+                required
                 value={categoryId}
                 onChange={handleCategoryChange} // เรียกใช้ handleCategoryChange เมื่อมีการเปลี่ยนแปลง
               >

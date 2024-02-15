@@ -1,10 +1,6 @@
 /* eslint-disable react/prop-types */
-// นำเข้าโมดูล axios เพื่อทำ HTTP requests
 import axios from 'axios'
-// นำเข้า createContext, useState, และ useEffect จาก React
 import { createContext, useState, useEffect } from 'react'
-
-// สร้าง Context สำหรับการจัดการข้อมูลการเข้าสู่ระบบ
 const AuthContext = createContext()
 
 // สร้าง Provider สำหรับ Context เพื่อให้ความสามารถในการแชร์ข้อมูล

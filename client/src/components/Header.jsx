@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [cartInfo, setCartInfo] = useState({ totalItems: 0, totalPrice: 0 });
+  const [cartInfo, setCartInfo] = useState({totalItems:0,totalPrice:0});
 
   useEffect(() => {
     if (user?.user_id) {
@@ -19,6 +19,7 @@ const Header = () => {
           const res = await axios.get(`http://localhost:8000/api/cart/${user.user_id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
+          console.log(cartInfo.cartItems)
           const cartItems = res.data.cartItems;
           const totalItems = cartItems.reduce((total, currentItem) => total + currentItem.quantity, 0);
           const totalPrice = cartItems.reduce((total, currentItem) => total + (currentItem.product.price * currentItem.quantity), 0);

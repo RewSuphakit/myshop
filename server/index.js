@@ -8,8 +8,9 @@ const cors = require('cors');
 const prisma = require('./models/db');
 const authRoutes = require('./Routers/authRoutes');
 const authenticate = require('./middleware/authenticate');
-const productRoutes = require('./Routers/productRouter'); // Import productRouter
-const addressRoutes = require('./Routers/addressRoutes')
+const productRoutes = require('./Routers/productRouter');
+const addressRoutes = require('./Routers/addressRoutes');
+const paymentRoutes = require('./Routers/paymentRoutes');
 const port = process.env.PORT;
 app.use(morgan('dev'));
 app.use(cors());
@@ -26,6 +27,8 @@ app.use('/auth', authRoutes);
 app.use('/address',addressRoutes)
 // api/product
 app.use('/api', productRoutes); 
+// payment
+app.use('/payment', paymentRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port`, port);

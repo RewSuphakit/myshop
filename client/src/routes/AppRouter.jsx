@@ -12,6 +12,7 @@ import NotFound from '../components/NotFound';
 import HomePage from '../pages/HomePage';
 import ProductDetails from '../layouts/ProductDetails'
 import Cart from '../layouts/cart'
+import CheckOut from "../layouts/CheckOut";
 // สร้าง Router สำหรับผู้ใช้ที่ยังไม่ได้เข้าสู่ระบบ
 
 const guestRouter = createBrowserRouter([
@@ -56,6 +57,7 @@ const userRouter = createBrowserRouter([
       { path: '/ProductDetails/:id', element: <ProductDetails /> },
       { path: '/Cart/:id', element: <Cart /> },
       { path: '/Profile', element: <UserProfile /> },
+      { path:  '/CheckOut',element: <CheckOut /> },
       // เพิ่มเส้นทางสำหรับ 404 Not Found
       { path: '*', element: <NotFound /> },
     ]

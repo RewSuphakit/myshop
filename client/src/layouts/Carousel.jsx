@@ -7,15 +7,23 @@ const Carousel = () => {
   const products = [
     { 
       name: 'Product 1',
-      image: 'https://www.kasikornbank.com/SiteCollectionDocuments/business/sme/digital-banking/kshop/img-revamp/KSHOP-1280x640.jpg'
+      image: 'https://media-cdn.bnn.in.th/374811/iphone15pro-1752x640-070224_290224-category_banner_medium.jpg'
     },
     { 
       name: 'Product 2',
-      image: 'https://mpics.mgronline.com/pics/Images/566000009973902.JPEG'
+      image: 'https://setting.ihavecpu.com/uploads/category/shop1/category_banner_107.jpeg?1705235479'
     },
     { 
       name: 'Product 3',
-      image: 'https://www.prachachat.net/wp-content/uploads/2023/11/936602.jpg'
+      image: 'https://www.flashfly.net/wp/wp-content/uploads/2017/06/unnamed.png'
+    },
+    { 
+      name: 'Product 4',
+      image: 'https://investor.bigcamera.co.th/media/wysiwyg/news/2023/big-camera-festival/big-camera-festival-2023-banner1.jpg'
+    },
+    { 
+      name: 'Product 5',
+      image: 'https://www.mobileocta.com/wp-content/uploads/2022/03/Line-Ads_1200x628-cv.jpg'
     },
   ];
 
@@ -38,7 +46,7 @@ const Carousel = () => {
   const startAutoplay = () => {
     setAutoplayInterval(setInterval(() => {
       nextSlide();
-    }, 15000)); // เปลี่ยนจาก 10000 เป็น 15000 เพื่อปรับเวลาสไลด์
+    }, 15000)); 
   };
 
   const stopAutoplay = () => {
@@ -74,7 +82,7 @@ const Carousel = () => {
               <img
                 src={product.image}
                 alt={product.name}
-                className="object-cover w-full h-80 sm:h-96"
+                className=" bg-contain bg-center bg-no-repeat w-full h-80 sm:h-96"
               />
             </div>
           ))}

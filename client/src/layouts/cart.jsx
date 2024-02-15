@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -98,7 +99,25 @@ const Cart = () => {
   const numberWithCommas = (number) => {
     return number.toLocaleString("en-US");
   };
-
+  const handleCheckOut = async () => {
+    try {
+      const ordersData = {
+        userId: user.user_id,
+      };
+      const token = localStorage.getItem("token");
+      // ส่งข้อมูลใบสั่งซื้อไปยังเซิร์ฟเวอร์
+      await axios.post("http://localhost:8000/payment/orders", ordersData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      // เปลี่ยนสถานะตะกร้า เช่น ลบรายการในตะกร้าหลัง Checkout สำเร็จ
+      setCartItems([]);
+      // หลังจากส่งข้อมูลเสร็จสามารถเปลี่ยนหน้าไปยังหน้า Checkout หรือหน้าอื่นๆ ตามต้องการ
+      navigate("/checkout");
+    } catch (error) {
+      console.error("Failed to place order:", error);
+      setError("Failed to place order. Please try again later.");
+    }
+  };
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -128,7 +147,7 @@ const Cart = () => {
                       <h2 className="text-lg font-bold text-gray-900">
                         {item.product.name}
                       </h2>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 truncate">
                         {item.product.description}
                       </p>
                     </div>
@@ -177,7 +196,7 @@ const Cart = () => {
                       handleRemoveItem(item.product.id, item.cart_item_id)
                     }
                   >
-                    Remove
+                    X
                   </button>
                 </div>
               ))}
@@ -204,7 +223,10 @@ const Cart = () => {
                     </p>
                   </div>
                 </div>
-                <button className="mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-blue-50 hover:bg-blue-600">
+                <button
+                  className="mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-blue-50 hover:bg-blue-600"
+                  onClick={handleCheckOut}
+                >
                   Check out
                 </button>
               </div>

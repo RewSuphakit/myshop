@@ -132,7 +132,7 @@ export default function HomePage() {
         </div>
       </div>
       {currentProducts.length > 0
-        ? <div className="grid grid-cols-4 gap-4">
+        ? <div className="grid grid-cols-6 gap-4">
             {currentProducts.map(product =>
               <Link
                 to={`/Login`}

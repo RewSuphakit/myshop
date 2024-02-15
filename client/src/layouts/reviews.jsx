@@ -24,9 +24,8 @@ function Reviews() {
         console.error('Error fetching reviews:', error);
       }
     };
-
-    fetchReviews();
-  }, [id]);
+      fetchReviews();
+  }, [reviews.length]);
 
   const addCommentToReviews = (newReview) => {
     setReviews([...reviews, newReview]);
@@ -91,9 +90,8 @@ function Reviews() {
 
 
 
-// Function to handle editing a review
+
 const handleEditReview = (id) => {
-  // Implement your edit logic here, such as opening a modal or redirecting to an edit page
   console.log(`Editing review ${id}`);
 };
 
@@ -142,11 +140,9 @@ const submitEditedReview = async () => {
     let token = localStorage.getItem('token');
     const response = await axios.put(`http://localhost:8000/api/reviews/${editingReviewId}`, {
       comment: editedComment,
-      // Include updated user data in the request
       user: {
         first_name: user.first_name,
         last_name: user.last_name,
-        // สามารถรวมข้อมูลอื่นๆ ที่ต้องการอัปเดตได้ตามต้องการ
       }
     }, {
       headers: { Authorization: `Bearer ${token}` },
@@ -156,15 +152,12 @@ const submitEditedReview = async () => {
       toast.success('Review updated successfully!',{
         position: "top-center"
       });
-      // Update the review in the state
       setReviews(reviews.map(review => {
         if (review.review_id === editingReviewId) {
-          // Update the comment in the review
           return { ...review, user: user, comment: editedComment };
         }
         return review;
       }));
-      // Clear the editing state
       cancelEditReview();
     } else {
       console.error('Failed to update review:', response.data);
