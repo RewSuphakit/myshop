@@ -7,7 +7,7 @@ function Footer() {
   <div className="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div>
-      <img src="#" className="mr-5 h-6 sm:h-9" alt="logo" />
+      <img src="https://media.discordapp.net/attachments/751886057645146112/1209300507026264064/D8l29hU1s3ajgAAAABJRU5ErkJggg.png?ex=65e66bdc&is=65d3f6dc&hm=821cb22b127043e97b68049dbf6875248eae28b1ef9215106c80f652334e4e90&=&format=webp&quality=lossless" className="mr-5 h-6 sm:h-9" alt="logo" />
         <p className="max-w-xs mt-4 text-sm text-gray-600">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, accusantium.
         </p>
@@ -92,7 +92,7 @@ function Footer() {
       </div>
     </div>
     <p className="mt-8 text-xs text-gray-800">
-      © 2022 Comany Name
+      © 2024 SUPHAKIT LOMLAO
     </p>
   </div>
 </footer>

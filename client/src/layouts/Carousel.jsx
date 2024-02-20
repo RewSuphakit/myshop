@@ -69,7 +69,7 @@ const Carousel = () => {
   }, []); 
 
   return (
-    <div className="relative mt-10" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="relative mt-5" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="overflow-hidden relative">
         <div className="flex justify-center w-full">
           {products.map((product, index) => (

@@ -1,5 +1,43 @@
 const prisma = require('../models/db');
 
+exports.listCart = async (req, res, next) => {
+    try {
+        const { userId } = req.query;
+        
+        if (!userId) {
+            return res.status(400).json({ error: 'userId is required' });
+        }
+
+        const parsedUserId = parseInt(userId);
+        if (isNaN(parsedUserId)) {
+            return res.status(400).json({ error: 'Invalid userId' });
+        }
+
+        const cartItems = await prisma.shoppingCart_Items.findMany({
+            where: {
+                user_id: parsedUserId
+            },
+            include: {
+                product: true
+            }
+        });
+        
+        const cartItemsWithImages = cartItems.map(item => {
+            return {
+                ...item,
+                product: {
+                    ...item.product,
+                    image: item.product.image ? `http://localhost:8000/${item.product.image.replace(/\\/g, '/')}` : null
+                }
+            };
+        });
+          
+        return res.status(200).json({ cartItems: cartItemsWithImages });
+    } catch (error) {
+        console.error('Error getting cart items:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 
 exports.addToCart = async (req, res) => {
