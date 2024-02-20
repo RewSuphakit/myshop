@@ -6,7 +6,7 @@ const upload  = require('../middleware/uploads');
 const resizeImage = require('../middleware/resizeImage');
 const { read, list, create, update, remove } = require('../Controllers/productController');
 const { listCategories, createCategory, updateCategory, removeCategory } = require('../Controllers/categoryController');
-const { addToCart, getCartItems, deleteCartItem, updateCartItems } = require('../Controllers/cartController');
+const { addToCart,listCart,getCartItems, deleteCartItem, updateCartItems } = require('../Controllers/cartController');
 const { listReviews, addReview, updateReview, deleteReview } = require('../Controllers/reviewsController');
 
 // Routes for products
@@ -29,8 +29,9 @@ router.put('/reviews/:id', authenticate, updateReview);
 router.delete('/reviews/:id', authenticate, deleteReview);
 
 // Routes for cart
-router.post('/cart', authenticate, addToCart);
+router.get('/cart', authenticate,listCart)   
 router.get('/cart/:id', authenticate, getCartItems);
+router.post('/cart', authenticate, addToCart);
 router.put('/cart/:id', authenticate, updateCartItems);
 router.delete('/cart/:id', authenticate, deleteCartItem);
 

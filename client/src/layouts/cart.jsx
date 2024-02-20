@@ -100,23 +100,26 @@ const Cart = () => {
     return number.toLocaleString("en-US");
   };
   const handleCheckOut = async () => {
-    try {
-      const ordersData = {
-        userId: user.user_id,
-      };
-      const token = localStorage.getItem("token");
-      // ส่งข้อมูลใบสั่งซื้อไปยังเซิร์ฟเวอร์
-      await axios.post("http://localhost:8000/payment/orders", ordersData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      // เปลี่ยนสถานะตะกร้า เช่น ลบรายการในตะกร้าหลัง Checkout สำเร็จ
-      setCartItems([]);
-      // หลังจากส่งข้อมูลเสร็จสามารถเปลี่ยนหน้าไปยังหน้า Checkout หรือหน้าอื่นๆ ตามต้องการ
-      navigate("/checkout");
-    } catch (error) {
-      console.error("Failed to place order:", error);
-      setError("Failed to place order. Please try again later.");
-    }
+    navigate("/checkout");
+    // try {
+      
+    //   const ordersData = {
+    //     userId: user.user_id
+      
+    //   };
+    //   const token = localStorage.getItem("token");
+    //   // ส่งข้อมูลใบสั่งซื้อไปยังเซิร์ฟเวอร์
+    //   await axios.post("http://localhost:8000/checkout/checkout", ordersData,cartItems, {
+    //     headers: { Authorization: `Bearer ${token}` }
+    //   });
+    //   // เปลี่ยนสถานะตะกร้า เช่น ลบรายการในตะกร้าหลัง Checkout สำเร็จ
+    //   setCartItems([]);
+    //   // หลังจากส่งข้อมูลเสร็จสามารถเปลี่ยนหน้าไปยังหน้า Checkout หรือหน้าอื่นๆ ตามต้องการ
+    //   navigate("/checkout");
+    // } catch (error) {
+    //   console.error("Failed to place order:", error);
+    //   setError("Failed to place order. Please try again later.");
+    // }
   };
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
