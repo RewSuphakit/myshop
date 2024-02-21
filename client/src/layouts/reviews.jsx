@@ -10,7 +10,7 @@ function Reviews() {
   const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [reviewsPerPage] = useState(5); // จำนวนรีวิวต่อหน้า
+  const [reviewsPerPage] = useState(5); 
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -52,7 +52,7 @@ function Reviews() {
         setNewComment('');
 
         const newReview = response.data.review;
-        addCommentToReviews(newReview); // Add the new comment to the reviews array
+        addCommentToReviews(newReview); 
       } else {
         console.error('Failed to add comment:', response.data);
         toast.error('Failed to add comment. Please try again later.');
@@ -65,12 +65,12 @@ function Reviews() {
     }
   };
 
-  // Function to handle rating change
+
   const handleRatingChange = (value) => {
     setRating(value);
   };
 
-  // Calculate average rating
+
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
 
@@ -78,12 +78,11 @@ function Reviews() {
     return (totalRating / reviews.length).toFixed(1);
   };
 
-  // Get current reviews
+
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
 
-  // Change page
   const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
 
@@ -188,7 +187,6 @@ const submitEditedReview = async () => {
           />
         ))}
       </div>
-      {/* Comment input field */}
       <textarea
         rows="4"
         cols="50"
@@ -196,13 +194,11 @@ const submitEditedReview = async () => {
         required
         onChange={(e) => setNewComment(e.target.value)}
         placeholder="Add a comment..."
-        className="w-full h-10 border-gray-300 rounded-md mt-4"
+        className="w-full  p-2 border-gray-300 border rounded-md mt-4"
       />
-      <button className="btn btn-primary mt-2" onClick={handleAddComment}>
+      <button className="btn btn-primary mb-2" onClick={handleAddComment}>
         Add Comment
       </button>
-
-      {/* Display current page of comments */}
       <div>
       {currentReviews.map((review) => (
   <div key={review.review_id} className="bg-gray-100 p-4 rounded-md mb-4 relative">
@@ -214,14 +210,14 @@ const submitEditedReview = async () => {
         value={editedComment}
         onChange={(e) => setEditedComment(e.target.value)}
         placeholder="Edit your comment..."
-        className="w-full h-10 border-gray-300 rounded-md mt-2"
+        className="w-full h-10 p-2 border-gray-300 rounded-md mt-2"
       />
     ) : (
       <p>Comment: {review.comment}</p>
     )}
     <p>Rating: {review.rating}</p>
     <div className="absolute top-0 right-0 flex gap-2">
-      {user && user.user_id === review.user_id && ( // เพิ่มเงื่อนไขตรวจสอบว่ามีผู้ใช้เข้าสู่ระบบและ user_id เท่ากับ user_id ของความคิดเห็น
+      {user && user.user_id === review.user_id && ( 
         editingReviewId === review.review_id ? (
           <>
             <button className="btn btn-success" onClick={submitEditedReview}>Save</button>
@@ -238,7 +234,6 @@ const submitEditedReview = async () => {
   </div>
 ))}
       </div>
-
       {/* Pagination */}
       <nav className="mt-4 flex justify-center">
   <ul className="pagination flex">

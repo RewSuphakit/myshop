@@ -19,7 +19,6 @@ const Header = () => {
           const res = await axios.get(`http://localhost:8000/api/cart/${user.user_id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          console.log(cartInfo.cartItems)
           const cartItems = res.data.cartItems;
           const totalItems = cartItems.reduce((total, currentItem) => total + currentItem.quantity, 0);
           const totalPrice = cartItems.reduce((total, currentItem) => total + (currentItem.product.price * currentItem.quantity), 0);

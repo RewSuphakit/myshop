@@ -4,10 +4,7 @@ exports.getAddress = async (req, res, next) => {
         const addresses = await db.address.findMany({
             where: { user_id: req.user.user_id }
         });
-        if (!addresses || addresses.length === 0) {
-            // ถ้าไม่พบที่อยู่หรือที่อยู่ว่างเปล่า
-            return res.status(404).send({ message: "No addresses found for this user" });
-        }
+       
         // ถ้าพบที่อยู่ ส่งข้อมูลกลับไปยังผู้ใช้
         res.send({ addresses });
     } catch (error) {
@@ -16,25 +13,28 @@ exports.getAddress = async (req, res, next) => {
     }
 }
 exports.addAddress = async (req,res,next)=>{
-    try{
-     const address = await db.address.create({
-        data:{
-         recipient_name: req.body.recipient_name,
-          address_line1: req.body.address_line1,
-          address_line2: req.body.address_line2,
+    if (!req.user || !req.user.user_id) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      
+      try {
+        const address = await db.address.create({
+          data: {
+            recipient_name: req.body.recipient_name,
+            address_line1: req.body.address_line1,
+            address_line2: req.body.address_line2,
             postal_code: req.body.postal_code,
-                   city: req.body.city,
-                  phone: req.body.phone,  
-                  state: req.body.state,
-                user_id: req.user.user_id
-           
-           }
-     });
-     res.status(201).json({ address });
-    }catch(error){
-console.log('Error in addAddress', error)
-      return next(new Error('Server error'));
-    }
+            city: req.body.city,
+            phone: req.body.phone,
+            state: req.body.state,
+            user_id: req.user.user_id
+          }
+        });
+        res.status(201).json({ address });
+      } catch (error) {
+        console.log('Error in addAddress', error);
+        return next(new Error('Server error'));
+      }
 }
 exports.updateAddress = async (req, res, next) => {
     const { id } = req.params; // Retrieve the address ID from the route parameters

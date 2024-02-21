@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate ,Link} from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -31,8 +32,13 @@ const Cart = () => {
     }
   }, [id]);
 
-  const handleQuantityChange = async (cartItemId, newQuantity) => {
+  const handleQuantityChange = async (cartItemId, newQuantity, availableStock) => {
     try {
+      if (newQuantity > availableStock) {
+        setError("Cannot add more than available stock.");
+        return;
+      }
+  
       const token = localStorage.getItem("token");
       const updatedCartItems = cartItems.map((item) => {
         if (item.cart_item_id === cartItemId) {
@@ -41,7 +47,7 @@ const Cart = () => {
         return item;
       });
       setCartItems(updatedCartItems);
-
+  
       await axios.put(
         `http://localhost:8000/api/cart/${cartItemId}`,
         {
@@ -99,28 +105,37 @@ const Cart = () => {
   const numberWithCommas = (number) => {
     return number.toLocaleString("en-US");
   };
-  const handleCheckOut = async () => {
-    navigate("/checkout");
-    // try {
-      
-    //   const ordersData = {
-    //     userId: user.user_id
-      
-    //   };
-    //   const token = localStorage.getItem("token");
-    //   // ส่งข้อมูลใบสั่งซื้อไปยังเซิร์ฟเวอร์
-    //   await axios.post("http://localhost:8000/checkout/checkout", ordersData,cartItems, {
-    //     headers: { Authorization: `Bearer ${token}` }
-    //   });
-    //   // เปลี่ยนสถานะตะกร้า เช่น ลบรายการในตะกร้าหลัง Checkout สำเร็จ
-    //   setCartItems([]);
-    //   // หลังจากส่งข้อมูลเสร็จสามารถเปลี่ยนหน้าไปยังหน้า Checkout หรือหน้าอื่นๆ ตามต้องการ
-    //   navigate("/checkout");
-    // } catch (error) {
-    //   console.error("Failed to place order:", error);
-    //   setError("Failed to place order. Please try again later.");
-    // }
-  };
+
+const handleCheckOut = async () => {
+  // ตรวจสอบจำนวนสินค้าในตะกร้า
+  const totalItemsInCart = countTotalItems();
+
+  // ตรวจสอบจำนวนสินค้าใน product
+  const products = await axios.get("http://localhost:8000/api/products");
+  const productIdsInCart = cartItems.map(item => item.product.product_id);
+  const productsInCart = products.data.filter(product => productIdsInCart.includes(product.product_id));
+  let isProductAvailable = true;
+  for (const item of cartItems) {
+    const product = productsInCart.find(p => p.product_id === item.product.product_id);
+    if (!product || product.stock_quantity < item.quantity) {
+      isProductAvailable = false;
+      toast.error(`สินค้า "${product.name}" มีจำนวนไม่เพียงพอ (${product.stock_quantity} ชิ้น)`, {
+        position: 'top-center'
+      });
+      break;
+    }
+  }
+
+  if (totalItemsInCart === 0) {
+    alert("Cannot check out with an empty cart.");
+    return;
+  }
+
+  if (!isProductAvailable) {
+    return;
+  }
+  navigate("/checkout");
+};
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -130,12 +145,17 @@ const Cart = () => {
         Cart Items {countTotalItems()}
       </h1>
       {cartItems.length === 0 ? (
-        <p className="text-center mt-8">Your cart is empty.</p>
+        <p className="text-center mt-8">Your cart is empty.<a href="/" className="link">ไปซื้อสินค้า</a></p>
+        
       ) : (
-        <div className="mx-auto max-w-5xl px-6">
+       
+       <div className="mx-auto max-w-5xl px-6">
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <>
             <div className="md:col-span-2 space-y-8">
               {cartItems.map((item) => (
+             
                 <div
                   key={item.cart_item_id}
                   className="bg-white rounded-lg p-6 shadow-md flex items-start"
@@ -162,7 +182,8 @@ const Cart = () => {
                             if (item.quantity > 1) {
                               handleQuantityChange(
                                 item.cart_item_id,
-                                item.quantity - 1
+                                item.quantity - 1,
+                                item.product.stock
                               );
                             }
                           }}
@@ -181,7 +202,8 @@ const Cart = () => {
                           onClick={() =>
                             handleQuantityChange(
                               item.cart_item_id,
-                              item.quantity + 1
+                              item.quantity + 1,
+                              item.product.stock
                             )
                           }
                         >
@@ -194,16 +216,20 @@ const Cart = () => {
                     </div>
                   </div>
                   <button
-                    className="ml-4 text-red-500"
+                    className="ml-4 text-red-500 btn btn-ghost "
                     onClick={() =>
                       handleRemoveItem(item.product.id, item.cart_item_id)
                     }
                   >
                     X
                   </button>
+                  &nbsp;
                 </div>
               ))}
+              <Link to="/" className="link ">กลับไปเลือกซื้อสินค้า</Link>
+               
             </div>
+             </>
             <div className="bg-white rounded-lg p-6 shadow-md">
               <div className="flex flex-col">
                 <div className="flex justify-between mb-4">

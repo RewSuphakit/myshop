@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import  Address  from './address'
+import  EditProfile from './editProfile';
 import { FaAddressBook } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
 const UserProfile = () => {
@@ -32,6 +33,9 @@ const UserProfile = () => {
               <p className="mb-2 "><strong>ชื่อ:</strong> {user.first_name}</p>
               <p className="mb-2 "> <strong>นามสกุล:</strong>{user.last_name}</p>
               <p className="mb-2"><strong>อีเมล์:</strong> {user.email}</p>
+              <div className="absolute top-1 right-1">
+               <EditProfile/>
+              </div>
             </div>
           )}
           {activeTab === 'address' &&  (
