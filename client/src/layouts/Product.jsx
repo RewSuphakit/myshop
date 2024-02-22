@@ -11,7 +11,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(9);
+  const [productsPerPage] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
@@ -40,23 +40,6 @@ const Product = () => {
     fetchProducts();
     fetchCategories();
   }, [selectedCategory]);
-
-  const sliderRef = useRef();
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1
-  };
-
-  const goToNext = () => {
-    sliderRef.current.slickNext();
-  };
-
-  const goToPrev = () => {
-    sliderRef.current.slickPrev();
-  };
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -173,7 +156,7 @@ const Product = () => {
             <button
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+              className="px-3 py-1 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
             >
               Previous
             </button>
@@ -186,8 +169,8 @@ const Product = () => {
               <button
                 onClick={() => paginate(number)}
                 className={`px-3 py-1 rounded-lg ${
-                  currentPage === number ? "bg-blue-600" : "bg-blue-500"
-                } text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50`}
+                  currentPage === number ? "bg-indigo-500" : "bg-indigo-500"
+                } text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50`}
               >
                 {number}
               </button>
@@ -199,7 +182,7 @@ const Product = () => {
               disabled={
                 currentPage === Math.ceil(products.length / productsPerPage)
               }
-              className="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+              className="px-3 py-1 rounded-lg bg-indigo-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
             >
               Next
             </button>

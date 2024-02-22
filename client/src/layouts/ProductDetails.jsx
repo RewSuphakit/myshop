@@ -82,61 +82,40 @@ const ProductDetails = ({ userId }) => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="container mx-auto py-8">
-            <h1 className="text-3xl font-bold mb-4">Product Details</h1>
+        <div className="container mx-auto py-8 min-h-screen">
+        <h1 className="text-3xl font-bold mb-4">Product Details</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {product ? (
                 <div>
                     <div className="bg-white p-4 shadow-md rounded-md flex">
-                        <div className="w-1/3 mr-4">
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-96 h-96 object-cover rounded-md box-content border-2"
-                            />
+                        <div className="w-full md:w-1/3 mr-4">
+                            <img src={product.image} alt={product.name} className="w-full h-auto object-cover rounded-md box-content border-2" />
                         </div>
-                        <div className="w-1/3">
+                        <div className="w-full md:w-2/3">
                             <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
                             <p className="mb-4 text-gray-600">{product.description}</p>
                             <p className="text-gray-600">Price: {product.price} บาท</p>
                             <p className="text-gray-600">Stock Quantity: {product.stock_quantity}</p>
                             <div className="flex items-center mb-4">
                                 <div className="flex items-center border border-gray-300 rounded">
-                                    <button
-                                        onClick={decreaseQuantity}
-                                        className="px-3 py-1 border-r border-gray-300"
-                                    >
-                                        -
-                                    </button>
-                                    <input
-                                        type="number"
-                                        id="quantity"
-                                        min="1"
-                                        value={quantity}
-                                        onChange={(e) => setQuantity(parseInt(e.target.value))}
-                                        className="w-16 h-8 text-center"
-                                    />
-                                    <button
-                                        onClick={increaseQuantity}
-                                        className="px-3 py-1 border-l border-gray-300"
-                                    >
-                                        +
-                                    </button>
+                                    <button onClick={decreaseQuantity} className="px-3 py-1 border-r border-gray-300">-</button>
+                                    <input type="number" id="quantity" min="1" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} className="w-16 h-8 text-center" />
+                                    <button onClick={increaseQuantity} className="px-3 py-1 border-l border-gray-300">+</button>
                                 </div>
                             </div>
-                            <button className="btn btn-primary ml-2" onClick={handleAddToCart}>
-                                Add to Cart
-                            </button>
+                            <button className="btn btn-primary ml-2" onClick={handleAddToCart}>Add to Cart</button>
                         </div>
-                    </div>
-                    {/* แสดง Card ของ Review */}
-                    <div className="bg-white p-4 shadow-md rounded-md mt-4">
-                        <Reviews />
                     </div>
                 </div>
             ) : (
                 <p>No product found.</p>
             )}
+            {/* แสดง Card ของ Review */}
+            <div className="bg-white p-4 shadow-md rounded-md ">
+                <Reviews />
+            </div>
         </div>
+    </div>
     );
 };
 

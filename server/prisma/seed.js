@@ -22,7 +22,7 @@ async function main() {
     }
   ]
   })
-  // Seed Products
+  // // Seed Products
   // await prisma.products.createMany({
   //   data: [
   //     {
@@ -31,6 +31,7 @@ async function main() {
   //       price: 19.99,
   //       stock_quantity: 50,
   //       image: 'product1.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 2',
@@ -38,6 +39,7 @@ async function main() {
   //       price: 29.99,
   //       stock_quantity: 30,
   //       image: 'product2.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 4',
@@ -45,6 +47,7 @@ async function main() {
   //       price: 49.99,
   //       stock_quantity: 40,
   //       image: 'product4.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 5',
@@ -52,6 +55,7 @@ async function main() {
   //       price: 59.99,
   //       stock_quantity: 20,
   //       image: 'product5.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 4',
@@ -59,6 +63,7 @@ async function main() {
   //       price: 49.99,
   //       stock_quantity: 40,
   //       image: 'product4.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 6',
@@ -66,6 +71,7 @@ async function main() {
   //       price: 59.99,
   //       stock_quantity: 20,
   //       image: 'product5.jpg',
+  //       Category_id:
   //     },
       
   //     {
@@ -74,6 +80,7 @@ async function main() {
   //       price: 49.99,
   //       stock_quantity: 40,
   //       image: 'product4.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 8',
@@ -81,6 +88,7 @@ async function main() {
   //       price: 59.99,
   //       stock_quantity: 20,
   //       image: 'product5.jpg',
+  //       Category_id:
   //     },
       
   //     {
@@ -89,6 +97,7 @@ async function main() {
   //       price: 49.99,
   //       stock_quantity: 40,
   //       image: 'product4.jpg',
+  //       Category_id:
   //     },
   //     {
   //       name: 'Product 10',
@@ -96,6 +105,7 @@ async function main() {
   //       price: 59.99,
   //       stock_quantity: 20,
   //       image: 'product5.jpg',
+  //       Category_id:
   //     },
       
   //     {

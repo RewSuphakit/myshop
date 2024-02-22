@@ -33,6 +33,7 @@ function Reviews() {
 
   const handleAddComment = async () => {
     try {
+    
       const commentData = {
         productId: id,
         userId: user.user_id,
@@ -168,7 +169,7 @@ const submitEditedReview = async () => {
   }
 };
   return (
-    <div className="mt-8">
+    <div className="">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
       <p>Average Rating: {calculateAverageRating()} / 5.0</p>
       <div className="rating rating-lg rating-half mb-4">
@@ -194,14 +195,14 @@ const submitEditedReview = async () => {
         required
         onChange={(e) => setNewComment(e.target.value)}
         placeholder="Add a comment..."
-        className="w-full  p-2 border-gray-300 border rounded-md mt-4"
+        className="w-full  p-2 border-gray-300 border rounded-md "
       />
       <button className="btn btn-primary mb-2" onClick={handleAddComment}>
         Add Comment
       </button>
       <div>
       {currentReviews.map((review) => (
-  <div key={review.review_id} className="bg-gray-100 p-4 rounded-md mb-4 relative">
+  <div key={review.review_id} className="bg-gray-100 p-4 rounded-md mb-4 relative ">
     <p className="font-semibold">User: {review.user ? `${review.user.first_name} ${review.user.last_name}` : 'Anonymous'}</p>
     {editingReviewId === review.review_id ? (
       <textarea
@@ -210,10 +211,10 @@ const submitEditedReview = async () => {
         value={editedComment}
         onChange={(e) => setEditedComment(e.target.value)}
         placeholder="Edit your comment..."
-        className="w-full h-10 p-2 border-gray-300 rounded-md mt-2"
+        className="w-full p-2 border-gray-300 rounded-md mt-4"
       />
     ) : (
-      <p>Comment: {review.comment}</p>
+      <p className=" overflow-y-auto">Comment: {review.comment}</p>
     )}
     <p>Rating: {review.rating}</p>
     <div className="absolute top-0 right-0 flex gap-2">

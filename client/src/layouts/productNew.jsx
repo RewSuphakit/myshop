@@ -16,7 +16,6 @@ const ProductNew = () => {
           "http://localhost:8000/api/products/?sort=desc"
         );
         const filteredProducts = res.data.filter(product => product.stock_quantity > 0);
-        // เพิ่มตัวแปร isRecent ในข้อมูลสินค้า
         const productsWithRecentBadge = filteredProducts.map(product => ({
           ...product,
           isRecent: 
@@ -68,7 +67,7 @@ const ProductNew = () => {
     <div className="container mx-auto">
       <div className="flex justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-4">รายการสินค้า ใหม่</h1>
+          <h1 className="text-3xl font-bold mb-4 ">รายการสินค้า ใหม่</h1>
         </div>
         <div>
           <button className="rounded-full btn btn-ghost" onClick={goToPrev}>

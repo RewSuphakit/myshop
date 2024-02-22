@@ -119,7 +119,7 @@ const handleCheckOut = async () => {
     const product = productsInCart.find(p => p.product_id === item.product.product_id);
     if (!product || product.stock_quantity < item.quantity) {
       isProductAvailable = false;
-      toast.error(`สินค้า "${product.name}" มีจำนวนไม่เพียงพอ (${product.stock_quantity} ชิ้น)`, {
+      toast.error(`สินค้า "${item.product.name}" มีจำนวนไม่เพียงพอ (${item.product.stock_quantity} ชิ้น)`, {
         position: 'top-center'
       });
       break;
@@ -140,7 +140,7 @@ const handleCheckOut = async () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="h-screen pt-20">
+    <div className="h-screen mt-4">
       <h1 className="text-center text-2xl font-bold mb-8">
         Cart Items {countTotalItems()}
       </h1>
@@ -158,7 +158,7 @@ const handleCheckOut = async () => {
              
                 <div
                   key={item.cart_item_id}
-                  className="bg-white rounded-lg p-6 shadow-md flex items-start"
+                  className="bg-white rounded-lg p-6  shadow-md flex items-start overflow-y-auto"
                 >
                   <img
                     src={item.product.image}
@@ -167,12 +167,10 @@ const handleCheckOut = async () => {
                   />
                   <div className="flex-grow flex justify-between">
                     <div>
-                      <h2 className="text-lg font-bold text-gray-900">
+                      <h2 className="text-lg font-bold text-gray-900 text-ellipsis overflow-hidden">
                         {item.product.name}
                       </h2>
-                      <p className="text-sm text-gray-600 text-ellipsis overflow-hidden">
-                        {item.product.description}
-                      </p>
+                    
                     </div>
                     <div className="flex items-center flex-col mt-4">
                       <div className="flex items-center border border-gray-200 rounded overflow-hidden">
@@ -226,7 +224,7 @@ const handleCheckOut = async () => {
                   &nbsp;
                 </div>
               ))}
-              <Link to="/" className="link ">กลับไปยังหน้าสินค้าทั้งหมด</Link>
+              <Link to="/" className="link ">กลับไปเลือกซื้อสินค้า</Link>
                
             </div>
              </>
