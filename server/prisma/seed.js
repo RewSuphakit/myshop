@@ -132,7 +132,7 @@ async function main() {
         first_name: 'admin',
         last_name: 'admin',
         email: 'admin@gmail.com',
-        password: '123456',
+        password: hashedPassword,
         role: 'Admin',
       },
      

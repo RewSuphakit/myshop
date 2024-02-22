@@ -80,12 +80,11 @@ exports.read = async (req, res, next) => {
     await prisma.$disconnect();
   }
 };
-
+// Your create function
 exports.create = async (req, res) => {
   try {
     const { name, description, price, stock_quantity, category_id } = req.body;
 
- 
     if (!price || isNaN(price)) {
       return res.status(400).json({ error: 'Price is required and must be a number' });
     }
@@ -94,17 +93,14 @@ exports.create = async (req, res) => {
       return res.status(400).json({ error: 'Stock quantity is required and must be a number' });
     }
 
-  
     if (category_id === null) {
       return res.status(400).json({ error: 'Category is required' });
     }
 
-
     let image = null;
     if (req.file) {
-      image = req.file.path;
+      image = await resizeImage(req, res);
     }
-
 
     const newProduct = await prisma.products.create({
       data: {
@@ -123,6 +119,7 @@ exports.create = async (req, res) => {
     res.status(500).json({ error: 'Server Error: Failed to create product' });
   }
 };
+
 exports.update = async (req, res, next) => {
   try {
     const productId = parseInt(req.params.id);
