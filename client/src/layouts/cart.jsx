@@ -170,7 +170,7 @@ const handleCheckOut = async () => {
                       <h2 className="text-lg font-bold text-gray-900">
                         {item.product.name}
                       </h2>
-                      <p className="text-sm text-gray-600 truncate">
+                      <p className="text-sm text-gray-600 text-ellipsis overflow-hidden">
                         {item.product.description}
                       </p>
                     </div>
@@ -226,7 +226,7 @@ const handleCheckOut = async () => {
                   &nbsp;
                 </div>
               ))}
-              <Link to="/" className="link ">กลับไปเลือกซื้อสินค้า</Link>
+              <Link to="/" className="link ">กลับไปยังหน้าสินค้าทั้งหมด</Link>
                
             </div>
              </>
