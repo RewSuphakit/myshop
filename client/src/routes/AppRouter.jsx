@@ -13,6 +13,7 @@ import HomePage from '../pages/HomePage';
 import ProductDetails from '../layouts/ProductDetails'
 import Cart from '../layouts/cart'
 import CheckOut from "../layouts/CheckOut";
+import Contact from '../pages/contact';
 // สร้าง Router สำหรับผู้ใช้ที่ยังไม่ได้เข้าสู่ระบบ
 
 const guestRouter = createBrowserRouter([
@@ -60,6 +61,7 @@ const userRouter = createBrowserRouter([
       { path:  '/CheckOut',element: <CheckOut /> },
       // เพิ่มเส้นทางสำหรับ 404 Not Found
       { path: '*', element: <NotFound /> },
+      { path: '/Contact', element: <Contact/>}
     ]
   }
 ]);
