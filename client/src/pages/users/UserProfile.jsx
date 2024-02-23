@@ -34,7 +34,7 @@ const UserProfile = () => {
               <p className="mb-2 "> <strong>นามสกุล:</strong>{user.last_name}</p>
               <p className="mb-2"><strong>อีเมล์:</strong> {user.email}</p>
               <div className="absolute top-1 right-1">
-               <EditProfile/>
+               <EditProfile />
               </div>
             </div>
           )}

@@ -53,8 +53,6 @@ exports.login = async (req, res ) => {
       console.log("Invalid password")
       return res.status(401).json({ error: 'Invalid password' });
     }
-
-    // เพิ่มข้อมูลใน payload ของ token
     const payload = { 
       user:{ 
         email:user.email, 
@@ -71,9 +69,7 @@ exports.login = async (req, res ) => {
 
 exports.getUserProfile = async (req, res) => {
   try {
-    const { user_id, first_name, last_name, email, role, addresses, shoppingCartItems, orders, reviews } = req.user;
-
-    // ตรวจสอบบทบาทของผู้ใช้
+    const { user_id, first_name, last_name, email, role, addresses, shoppingCartItems, orders, reviews,updated_at } = req.user;
     if (role !== 'Admin' && role !== 'User') {
       return res.status(403).json({ error: 'Unauthorized: Invalid user role' });
     }
@@ -83,6 +79,7 @@ exports.getUserProfile = async (req, res) => {
       first_name,
       last_name,
       email,
+      updated_at,
       role,
       addresses,
       shoppingCartItems,
@@ -95,3 +92,23 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.updateUserProfile = async(req,res,next) => {
+  try{
+    const {first_name,last_name} = req.body;
+    const userId = req.params.id;
+    const updateProfile = await prisma.users.update({
+      where: { user_id: parseInt(userId) },
+      data:{
+        first_name,
+        last_name,
+        updated_at: new Date(),
+        }
+    })
+
+    delete updateProfile.password;
+    res.status(200).json({ users: updateProfile });
+  }catch(error){
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}

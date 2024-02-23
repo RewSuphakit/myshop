@@ -1,47 +1,44 @@
 /* eslint-disable react/prop-types */
-import axios from 'axios'
-import { createContext, useState, useEffect } from 'react'
-const AuthContext = createContext()
+import axios from 'axios';
+import { createContext, useState, useEffect } from 'react';
+const AuthContext = createContext();
 
 // สร้าง Provider สำหรับ Context เพื่อให้ความสามารถในการแชร์ข้อมูล
 function AuthContextProvider(props) {
   // สร้าง state เพื่อเก็บข้อมูลผู้ใช้และสถานะการโหลด
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  
-  // useEffect ทำงานครั้งแรกเพื่อตรวจสอบสถานะการเข้าสู่ระบบ
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState(null); // เพิ่ม state เก็บค่า lastUpdatedAt
+
+  // useEffect ทำงานเมื่อ user หรือ lastUpdatedAt เปลี่ยนแปลง
   useEffect(() => {
     const run = async () => {
       try {
-        // กำหนดสถานะ loading เป็น true เพื่อแสดงว่ากำลังโหลดข้อมูล
-        setLoading(true)
-        // ดึง token จาก localStorage
-        let token = localStorage.getItem('token')
-        // ถ้าไม่มี token ใน localStorage ให้จบการทำงาน
-        if (!token) { return }
-        // ทำ HTTP request เพื่อตรวจสอบข้อมูลผู้ใช้
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        if (!token) { return; }
+        
         const rs = await axios.get('http://localhost:8000/auth/profile', {
           headers: { Authorization: `Bearer ${token}` }
-        })
-        // กำหนดข้อมูลผู้ใช้ใน state
-        setUser(rs.data)
+        });
+        
+        setUser(rs.data);
       } catch (err) {
-        console.log(err.message)
+        console.log(err.message);
       } finally {
-        // กำหนดสถานะ loading เป็น false เมื่อทำงานเสร็จสิ้น
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    // เรียกฟังก์ชัน run เมื่อ useEffect ทำงาน
-    run()
-  }, [])
+    };
 
+    run();
+  }, [lastUpdatedAt]); // เมื่อ lastUpdatedAt เปลี่ยนแปลง
+
+  console.log(user);
+  
   // ฟังก์ชันสำหรับการออกจากระบบ
   const logout = () => {
-    // กำหนดข้อมูลผู้ใช้ใน state เป็น null
-    setUser(null)
-    // ลบ token ใน localStorage
-    localStorage.removeItem('token')
+    setUser(null);
+    localStorage.removeItem('token');
   }
    
   // ส่งค่า value ที่ต้องการให้ Context มีไปใน child components
@@ -55,4 +52,4 @@ function AuthContextProvider(props) {
 // ส่งออก AuthContextProvider เพื่อนำไปใช้ในที่อื่น
 export { AuthContextProvider }
 // ส่งออก AuthContext เพื่อให้ child components อื่น ๆ นำไปใช้
-export default AuthContext
+export default AuthContext;

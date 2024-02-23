@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
+import EditAddress from '../users/editAddress';
 const Address = () => {
   const [showModal, setShowModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -102,6 +102,7 @@ const Address = () => {
                 <td className="p-2" style={{ minWidth: '100px' }}>{address.state}</td>
                 <td className="p-2" style={{ minWidth: '100px' }}>{address.postal_code}</td>
                 <td className="p-2" style={{ minWidth: '150px' }}>{address.phone}</td>
+                <td className="p-2"><EditAddress/></td>
               </tr>
             ))}
           </tbody>
