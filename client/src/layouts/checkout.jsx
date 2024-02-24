@@ -305,7 +305,6 @@ const Checkout = () => {
                       onChange={handleChange}
                     />
                     <label
-                      htmlFor="card"
                       className="ml-4 flex gap-2 cursor-pointer"
                     >
                       <img
@@ -336,7 +335,6 @@ const Checkout = () => {
                       onChange={handleChange}
                     />
                     <label
-                      htmlFor="paypal"
                       className="ml-4 flex gap-2 cursor-pointer"
                     >
                       <img

@@ -92,7 +92,7 @@ function AddProductForm() {
             <div className="card bg-base-100 shadow-xl mt-4 p-4">
               <h2 className="text-xl font-semibold mb-4">Product Details</h2>
               <div className="mb-4">
-                <label htmlFor="name" className="block mb-1">
+                <label  className="block mb-1">
                   Product Name
                 </label>
                 <input
@@ -106,7 +106,7 @@ function AddProductForm() {
                 />
               </div>
               <div>
-                <label htmlFor="description" className="block mb-1">
+                <label  className="block mb-1">
                   Description
                 </label>
                 <textarea
@@ -126,7 +126,7 @@ function AddProductForm() {
               <div className="card-body">
                 <h2>Product Media</h2>
                <label
-                htmlFor="cover-photo"
+               
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Cover photo
@@ -138,7 +138,6 @@ function AddProductForm() {
     <div className="text-center">
       <div className="mt-4 flex text-sm leading-6 text-gray-600">
         <label
-          htmlFor="file-upload"
           className="flex items-center justify-center w-full py-2 rounded-lg"
         >
           <MdOutlineAddPhotoAlternate size={20} className="mr-2" />
@@ -166,7 +165,7 @@ function AddProductForm() {
             <div className="card bg-base-100 shadow-xl mt-4 p-4">
               <h2 className="text-xl font-semibold mb-4">Price and Quantity</h2>
               <div className="mb-4">
-                <label htmlFor="price" className="block mb-1">
+                <label  className="block mb-1">
                   Price
                 </label>
                 <input
@@ -181,7 +180,7 @@ function AddProductForm() {
                 />
               </div>
               <div>
-                <label htmlFor="stock_quantity" className="block mb-1">
+                <label className="block mb-1">
                   Stock Quantity
                 </label>
                 <input

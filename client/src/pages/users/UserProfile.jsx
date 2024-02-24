@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import  Address  from './address'
+import  OrderStatus from './orderStatus'
+import OrderHistory from './orderHistory'
 import  EditProfile from './editProfile';
 import { FaAddressBook } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { FaHistory } from "react-icons/fa";
 const UserProfile = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('personal');
@@ -20,8 +24,8 @@ const UserProfile = () => {
         <div className="flex flex-col gap-2 justify-end"> 
           <button className={`btn ${activeTab === 'personal' && 'btn-primary'}`} onClick={() => handleTabClick('personal')}><ImProfile />ข้อมูลส่วนตัว</button>
           <button className={`btn ${activeTab === 'address' && 'btn-primary'}`} onClick={() => handleTabClick('address')}><FaAddressBook />ที่อยู่</button>
-          <button className={`btn ${activeTab === 'orderStatus' && 'btn-primary'}`} onClick={() => handleTabClick('orderStatus')}>Order Status</button>
-          <button className={`btn ${activeTab === 'orderHistory' && 'btn-primary'}`} onClick={() => handleTabClick('orderHistory')}>Order History</button>
+          <button className={`btn ${activeTab === 'orderStatus' && 'btn-primary'}`} onClick={() => handleTabClick('orderStatus')}><BsFillCartCheckFill />รายละเอียดสินค้าและสถานะ</button>
+          <button className={`btn ${activeTab === 'orderHistory' && 'btn-primary'}`} onClick={() => handleTabClick('orderHistory')}><FaHistory />ประวัตการสั่งซื้อ</button>
         </div>
       </div>
 
@@ -50,12 +54,12 @@ const UserProfile = () => {
           )}
           {activeTab === 'orderStatus' && (
             <div>
-              {/* แสดงข้อมูลสถานะการสั่งซื้อตามที่ต้องการ */}
+            <OrderStatus/>
             </div>
           )}
           {activeTab === 'orderHistory' && (
             <div>
-              {/* แสดงข้อมูลประวัติการสั่งซื้อตามที่ต้องการ */}
+            <OrderHistory/>
             </div>
           )}
           

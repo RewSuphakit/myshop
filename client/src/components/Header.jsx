@@ -4,6 +4,7 @@ import useAuth from '../hooks/useAuth';
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { MdHistory } from "react-icons/md";
+
 import axios from 'axios';
 import Swal from 'sweetalert2';
 const Header = () => {
@@ -61,7 +62,7 @@ const Header = () => {
         <Link to="/Profile"><CgProfile />โปรฟาย</Link>
       </li>
       <li className=" text-xl font-bold  pb-2">
-        <Link to="/Profile"><MdHistory />ประวัตการสั่งซื้อ</Link>
+        <Link to="/Profile/OrderHistory"><MdHistory />ประวัตการสั่งซื้อ</Link>
       </li>
       <div className="divider"></div>
       <li className=" text-xl font-bold pb-2">
@@ -83,7 +84,7 @@ const Header = () => {
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ">
               <li>  <Link to="/">Home</Link></li>
               <li><Link to="/Contact">Contact</Link></li>
-              <li><a>about</a></li>
+              <li><Link to="/about">about</Link></li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">{user?.user_id ? [user.first_name, ' ', user.last_name] : 'Guest'}</a>
@@ -92,7 +93,7 @@ const Header = () => {
           <ul className="menu menu-horizontal px-1 z-10">
             <li>  <Link to="/">Home</Link></li>
             <li><Link to="/Contact">Contact</Link></li>
-            <li><a>about</a></li>
+            <li><Link to="/about">about</Link></li>
           </ul>
         </div>
         <div className="navbar-end">

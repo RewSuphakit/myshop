@@ -56,6 +56,7 @@ const Product = () => {
   };
 
   return (
+    <>
     <div className="container mx-auto py-8">
       <ProductNew />
       <div className="flex justify-between items-center flex-wrap mb-4 mt-6">
@@ -63,7 +64,7 @@ const Product = () => {
           รายการสินค้า ทั้งหมด
         </h1>
         <div className="flex w-full md:w-auto items-center md:ml-auto">
-          <label htmlFor="category" className="mr-2">
+          <label className="mr-2">
             หมวดหมู่:
           </label>
           <select
@@ -190,6 +191,9 @@ const Product = () => {
         </ul>
       )}
     </div>
+
+
+    </>
   );
 };
 

@@ -18,7 +18,6 @@ enum Role {
 enum Status {
   pending
   Cancelled
-  Paid
   Delivered
   Succeed
 }
