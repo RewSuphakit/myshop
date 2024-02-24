@@ -30,7 +30,6 @@ const Header = () => {
       fetchCartInfo();
     }
   }, [user?.user_id]);
-
   const handleLogout = () => {
     Swal.fire({
       title: "คุณแน่ใจหรือไม่",

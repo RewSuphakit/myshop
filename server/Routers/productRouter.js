@@ -29,7 +29,7 @@ router.put('/reviews/:id', authenticate, updateReview);
 router.delete('/reviews/:id', authenticate, deleteReview);
 
 // Routes for cart
-router.get('/cart', authenticate,listCart)   
+router.get('/cart',listCart)   
 router.get('/cart/:id', authenticate, getCartItems);
 router.post('/cart', authenticate, addToCart);
 router.put('/cart/:id', authenticate, updateCartItems);

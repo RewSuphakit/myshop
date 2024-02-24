@@ -8,7 +8,7 @@ function AuthContextProvider(props) {
   // สร้าง state เพื่อเก็บข้อมูลผู้ใช้และสถานะการโหลด
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [lastUpdatedAt, setLastUpdatedAt] = useState(null); // เพิ่ม state เก็บค่า lastUpdatedAt
+
 
   // useEffect ทำงานเมื่อ user หรือ lastUpdatedAt เปลี่ยนแปลง
   useEffect(() => {
@@ -31,9 +31,9 @@ function AuthContextProvider(props) {
     };
 
     run();
-  }, [lastUpdatedAt]); // เมื่อ lastUpdatedAt เปลี่ยนแปลง
+  }, []); 
 
-  console.log(user);
+
   
   // ฟังก์ชันสำหรับการออกจากระบบ
   const logout = () => {

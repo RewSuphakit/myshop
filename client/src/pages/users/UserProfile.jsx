@@ -28,15 +28,20 @@ const UserProfile = () => {
       <div className="w-full lg:w-2/3">
         <div className="p-4 bg-white rounded-lg shadow-md">
           {activeTab === 'personal' && user && (
-            <div className="animate-fade-up animate-duration-[400ms] animate-ease-linear">
-               <h2 className="text-xl font-bold mb-4 ">ข้อมูลส่วนตัว</h2>
-              <p className="mb-2 "><strong>ชื่อ:</strong> {user.first_name}</p>
-              <p className="mb-2 "> <strong>นามสกุล:</strong>{user.last_name}</p>
-              <p className="mb-2"><strong>อีเมล์:</strong> {user.email}</p>
-              <div className="absolute top-1 right-1">
-               <EditProfile />
-              </div>
+            <>
+            <div className="relative ">
+               <div className="absolute top-0 right-0 ">   
+                 <EditProfile />
+               </div>
+               </div>
+             <div className="">
+             <h2 className="text-xl font-bold mb-4 ">ข้อมูลส่วนตัว</h2>
+            <p className="mb-2 "><strong>ชื่อ:</strong> {user.first_name}</p>
+            <p className="mb-2 "> <strong>นามสกุล:</strong>{user.last_name}</p>
+            <p className="mb-2"><strong>อีเมล์:</strong> {user.email}</p>
             </div>
+        
+          </>
           )}
           {activeTab === 'address' &&  (
            <div className="">

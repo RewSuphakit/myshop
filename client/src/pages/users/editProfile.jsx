@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
-
+import { FaUserEdit } from "react-icons/fa";
 function EditProfile() {
   const { id } = useParams();
   const { user } = useAuth(); 
@@ -11,28 +11,18 @@ function EditProfile() {
   const [lastName, setLastName] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [profileData,setProfileData] = useState();
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token'); 
-        const response = await axios.get("http://localhost:8000/auth/profile", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setProfileData(response.data);
-        setFirstName(response.data.first_name);
-        setLastName(response.data.last_name);
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-        toast.error('Error fetching profile data', { position: "top-center" });
-      }
-    };
-    fetchProfile();
-  }, [user.updated_at]);
+    if (user) {
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+    }
+  }, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token'); // Retrieve token from localStorage
+      const token = localStorage.getItem('token'); 
       await axios.put(
         `http://localhost:8000/auth/profile/${user.user_id}`,
         {
@@ -43,23 +33,25 @@ function EditProfile() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      toast.success('Profile updated successfully!', { position: "top-center" });
       setShowModal(false);
+      toast.success('Profile updated successfully!', { position: "top-center" });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000); 
     } catch (error) {
-      // Handle error, perhaps show a toast message
       console.error('Error updating profile:', error);
       toast.error('Error updating profile', { position: "top-center" });
     }
   };
-
   return (
-    <div>
+    <>
+    
       <button className="btn" onClick={() => setShowModal(true)}>
-        Edit
+      <FaUserEdit  size={20}/>
       </button>
       {showModal && (
         <dialog id="my_modal_3" className="modal" open>
-          <div className="modal-box">
+          <div className="modal-box ">
             <form onSubmit={handleSubmit}>
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -68,28 +60,39 @@ function EditProfile() {
                 ✕
               </button>
               <h3 className="font-bold text-lg">Edit Profile!</h3>
+              <label className="input input-bordered flex items-center gap-2 mt-4">
+ชื่อ
               <input
                 type="text"
                 placeholder="FirstName"
-                className="input"
+                className=" mr-2  p-2 text-sm w-full "
+                required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
+   </label>
+   <label className="input input-bordered flex items-center gap-2 mt-4">
+ นามสกุล
               <input
                 type="text"
-                placeholder="LastName"
-                className="input mt-4"
+                placeholder="LastName "
+                className=" max-w-xs mb-4 mt-4 text-sm " 
+                required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
-              <button type="submit" className="btn">
+                 </label>
+              <div className="relative h-20">
+              <button type="submit " className="btn  absolute bottom-0 right-0  " >
                 ตกลง
               </button>
+              </div>
             </form>
           </div>
         </dialog>
+        
       )}
-    </div>
+    </>
   );
 }
 

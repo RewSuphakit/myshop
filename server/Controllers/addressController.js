@@ -12,6 +12,20 @@ exports.getAddress = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.readAddress = async (req, res, next) => {
+    const addressId = req.params.id; // Get address id from request parameters
+    try {
+      const address = await Address.findOne({ address_id: addressId });
+  
+      if (!address) {
+        return res.status(404).json({ message: 'Address not found' });
+      }
+      return res.status(200).json({ address });
+    } catch (error) {
+      return next(error);
+    }
+  };
 exports.addAddress = async (req,res,next)=>{
     if (!req.user || !req.user.user_id) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -37,16 +51,15 @@ exports.addAddress = async (req,res,next)=>{
       }
 }
 exports.updateAddress = async (req, res, next) => {
-    const { id } = req.params; // Retrieve the address ID from the route parameters
+    const address_id = req.params.id ; 
     try {
-        // Check the correctness of the data sent
+      
         if (!req.body.recipient_name || !req.body.address_line1 || !req.body.city || !req.body.postal_code) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
-        // Perform the address data update
         const updatedAddress = await db.address.update({
-            where: { address_id: parseInt(id) }, // Parse the ID to integer if necessary
+            where: { address_id: parseInt(address_id) }, 
             data: {
                 recipient_name: req.body.recipient_name,
                 address_line1: req.body.address_line1,
@@ -54,11 +67,12 @@ exports.updateAddress = async (req, res, next) => {
                 city: req.body.city,
                 postal_code: req.body.postal_code,
                 phone: req.body.phone || null,
-                state: req.body.state || null
+                state: req.body.state || null,
+                user_id : req.body.userId
             }
         });
 
-        // Respond with the updated data
+     
         res.json({ address: updatedAddress });
     } catch (error) {
         console.log('Error in updateAddress:', error);
@@ -75,7 +89,7 @@ exports.deleteAddress = async (req, res, next) => {
         });
 
         // ตอบกลับด้วยข้อความแสดงว่า address ถูกลบเรียบร้อยแล้ว
-        res.json({ message: "Address deleted successfully" });
+        res.status(204).json({ message: "Address deleted successfully" });
     } catch (error) {
         console.log('Error in removeAddress:', error);
         return next(new Error('Server error'));

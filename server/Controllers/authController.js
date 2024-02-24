@@ -93,22 +93,24 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
-exports.updateUserProfile = async(req,res,next) => {
-  try{
-    const {first_name,last_name} = req.body;
+exports.updateUserProfile = async (req, res, next) => {
+  try {
+    const { first_name, last_name } = req.body;
     const userId = req.params.id;
     const updateProfile = await prisma.users.update({
       where: { user_id: parseInt(userId) },
-      data:{
+      data: {
         first_name,
         last_name,
         updated_at: new Date(),
-        }
-    })
+      },
+    });
 
     delete updateProfile.password;
+    
+
     res.status(200).json({ users: updateProfile });
-  }catch(error){
+  } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+};

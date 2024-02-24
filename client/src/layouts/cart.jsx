@@ -140,6 +140,7 @@ const handleCheckOut = async () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
+    
     <div className="h-screen mt-4">
       <h1 className="text-center text-2xl font-bold mb-8">
         Cart Items {countTotalItems()}
@@ -158,7 +159,7 @@ const handleCheckOut = async () => {
              
                 <div
                   key={item.cart_item_id}
-                  className="bg-white rounded-lg p-6  shadow-md flex items-start overflow-y-auto"
+                  className="bg-white rounded-lg p-6   shadow-md flex items-start overflow-y-auto"
                 >
                   <img
                     src={item.product.image}
@@ -167,7 +168,7 @@ const handleCheckOut = async () => {
                   />
                   <div className="flex-grow flex justify-between">
                     <div>
-                      <h2 className="text-lg font-bold text-gray-900 text-ellipsis overflow-hidden">
+                      <h2 className="text-lg font-bold text-gray-900 w-[15rem] text-ellipsis overflow-hidden">
                         {item.product.name}
                       </h2>
                     

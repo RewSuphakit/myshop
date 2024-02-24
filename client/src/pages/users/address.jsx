@@ -3,6 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import EditAddress from '../users/editAddress';
+import { MdDeleteOutline } from "react-icons/md";
 const Address = () => {
   const [showModal, setShowModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -15,20 +16,20 @@ const Address = () => {
   const [phone, setPhone] = useState('');
 
   useEffect(() => {
-    const fetchAddress = async () => {
-      try {
-        let token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:8000/address', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setAddresses(res.data.addresses);
-      } catch (error) {
-        console.error('Error fetching address:', error.message);
-      }
-    };
     fetchAddress();
   }, []);
 
+  const fetchAddress = async () => {
+    try {
+      let token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:8000/address', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAddresses(res.data.addresses);
+    } catch (error) {
+      console.error('Error fetching address:', error.message);
+    }
+  };
   const handleAddAddress = () => {
     setShowModal(true);
   };
@@ -65,7 +66,7 @@ const Address = () => {
         alert("Failed to add address. Please try again later.");
       }
     } catch (error) {
-      console.error("Error adding address: ", error); // Log the full error object for better debugging
+      console.error("Error adding address: ", error); 
       alert("An error occurred. Please try again later.");
     }
   };
@@ -74,41 +75,63 @@ const Address = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
+  const handleDeleteAddress = async (id) => {
+    try {
+      let token = localStorage.getItem('token');
+      const response = await axios.delete(`http://localhost:8000/address/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      if (response.status === 204) {
+        toast.success('Address deleted successfully!', {
+          position: "top-center"
+        });
+        setAddresses(addresses.filter(address => address.address_id !== id));
+      } else {
+        console.error('Failed to delete address:', response.data);
+        alert('Failed to delete address. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error deleting address:', error);
+      alert('Error deleting address. Please try again later.');
+    }
+  };
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">เพิ่มที่อยู่</h2>
       <div className="overflow-x-auto">
-        <table className="border-collapse border border-gray-300">
-          <thead className="bg-blue-100">
-            <tr>
-              <th className="p-2">ชื่อผู้รับ</th>
-              <th className="p-2">ที่อยู่ 1</th>
-              <th className="p-2">ที่อยู่ 2</th>
-              <th className="p-2">เมือง</th>
-              <th className="p-2">อำเภอ</th>
-              <th className="p-2">รหัสไปรษณีย์</th>
-              <th className="p-2">เบอร์โทร</th>
-              <th className="p-2">EDIT</th>
-            </tr>
-          </thead>
-          <tbody>
-            {addresses && addresses.map((address) => (
-              <tr key={address.address_id} className="hover:bg-gray-100">
-                <td className="p-2" style={{ minWidth: '150px' }}>{address.recipient_name}</td>
-                <td className="p-2" style={{ minWidth: '150px' }}>{address.address_line1}</td>
-                <td className="p-2" style={{ minWidth: '150px' }}>{address.address_line2}</td>
-                <td className="p-2" style={{ minWidth: '100px' }}>{address.city}</td>
-                <td className="p-2" style={{ minWidth: '100px' }}>{address.state}</td>
-                <td className="p-2" style={{ minWidth: '100px' }}>{address.postal_code}</td>
-                <td className="p-2" style={{ minWidth: '150px' }}>{address.phone}</td>
-                <td className="p-2"><EditAddress/></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <div className="grid grid-cols-1   sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  lg:w-[100rem] gap-4">
+    {addresses && addresses.map((address) => (
+      <div key={address.address_id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg  ml-2 my-4 overflow-x-auto ">
+        <div className="mb-4">
+          <strong>ชื่อผู้รับ:</strong> {address.recipient_name}
+        </div>
+        <div className="mb-4">
+          <strong>ที่อยู่ 1:</strong> {address.address_line1}
+        </div>
+        <div className="mb-4">
+          <strong>ที่อยู่ 2:</strong> {address.address_line2}
+        </div>
+        <div className="mb-4">
+          <strong>เมือง:</strong> {address.city}
+        </div>
+        <div className="mb-4">
+          <strong>อำเภอ:</strong> {address.state}
+        </div>
+        <div className="mb-4">
+          <strong>รหัสไปรษณีย์:</strong> {address.postal_code}
+        </div>
+        <div className="mb-4">
+          <strong>เบอร์โทร:</strong> {address.phone}
+        </div>
+        <div className="flex justify-end">
+        <button className="btn bg-red-200 hover:bg-red-400" onClick={() => handleDeleteAddress(address.address_id )}><MdDeleteOutline  size={20}/></button>
+          <EditAddress addresses={address} fetchAddress={fetchAddress} />
+        </div>
       </div>
-
+    ))}
+  </div>
+</div>
       <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
         <div className="text-center">
           <div className="mt-4 flex text-sm leading-6 text-gray-600">

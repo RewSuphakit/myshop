@@ -95,41 +95,19 @@ const handleEditReview = (id) => {
   console.log(`Editing review ${id}`);
 };
 
-// Function to handle deleting a review
-const handleDeleteReview = async (id) => {
-  try {
-    let token = localStorage.getItem('token');
-    const response = await axios.delete(`http://localhost:8000/api/reviews/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
 
-    if (response.status === 204) {
-      toast.success('Review deleted successfully!',{
-        position: "top-center"
-      });
-      // Remove the deleted review from the state
-      setReviews(reviews.filter(review => review.review_id !== id));
-    } else {
-      console.error('Failed to delete review:', response.data);
-      alert('Failed to delete review. Please try again later.');
-    }
-  } catch (error) {
-    console.error('Error deleting review:', error);
-    alert('Error deleting review. Please try again later.');
-  }
-};
 
 
 const [editingReviewId, setEditingReviewId] = useState(null);
 const [editedComment, setEditedComment] = useState('');
 
-// Function to handle starting the edit process
+
 const startEditReview = (id, initialComment) => {
   setEditingReviewId(id);
   setEditedComment(initialComment);
 };
 
-// Function to handle canceling the edit process
+
 const cancelEditReview = () => {
   setEditingReviewId(null);
   setEditedComment('');
