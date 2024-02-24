@@ -12,6 +12,7 @@ const productRoutes = require('./Routers/productRouter');
 const addressRoutes = require('./Routers/addressRoutes');
 const paymentRoutes = require('./Routers/paymentRoutes');
 const checkoutRouter = require('./Routers/checkoutRouter');
+const orderRoutes = require('./Routers/orderRoutes');
 const port = process.env.PORT;
 app.use(morgan('dev'));
 app.use(cors());
@@ -31,6 +32,7 @@ app.use('/api', productRoutes);
 // Payment
 app.use('/payment',paymentRoutes);
 // Order
+app.use('/order', orderRoutes);
 // app.use('/order', orderRoutes);
 app.use('/checkout', checkoutRouter);
 
