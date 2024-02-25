@@ -1,3 +1,4 @@
+// cartController.js
 const prisma = require('../models/db');
 
 exports.listCart = async (req, res, next) => {
@@ -37,7 +38,7 @@ exports.listCart = async (req, res, next) => {
         console.error('Error getting cart items:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
 
 
 exports.addToCart = async (req, res) => {
@@ -137,7 +138,7 @@ exports.getCartItems = async (req, res) => {
 exports.updateCartItems = async (req, res) => {
     try {
         // แยก cartItemId และ quantity จากพารามิเตอร์ของคำขอ
-        const { id:cartItemId } = req.params;
+        const { id: cartItemId } = req.params;
         const { quantity } = req.body;
 
         const parsedCartItemId = parseInt(cartItemId);
@@ -155,11 +156,9 @@ exports.updateCartItems = async (req, res) => {
             }
         });
 
-
         if (!cartItem) {
             return res.status(404).json({ error: 'Cart item not found' });
         }
-
 
         await prisma.shoppingCart_Items.update({
             where: {
@@ -169,6 +168,9 @@ exports.updateCartItems = async (req, res) => {
                 quantity: parsedQuantity
             }
         });
+
+        // ยุติการเชื่อมต่อ Prisma เพื่อลดจำนวนการเชื่อมต่อที่ใช้งานอยู่ในขณะนี้
+        await prisma.$disconnect();
 
         // ส่งข้อความว่าอัปเดตรายการสินค้าในตะกร้าสำเร็จ
         return res.status(200).json({ message: 'Cart item updated successfully' });

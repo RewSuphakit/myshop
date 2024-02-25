@@ -30,8 +30,10 @@ module.exports = async (req, res, next) => {
 
     delete user.password;
     req.user = user;
+    await prisma.$disconnect(); // ปิดการเชื่อมต่อ Prisma หลังจากใช้งานเสร็จสิ้น
     next();
   } catch (err) {
+    await prisma.$disconnect(); // ปิดการเชื่อมต่อ Prisma ในกรณีเกิดข้อผิดพลาด
     next(err);
   }
 };
