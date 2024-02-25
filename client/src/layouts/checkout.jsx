@@ -189,7 +189,7 @@ const Checkout = () => {
       <form onSubmit={handleSubmit} className="lg:mt-12">
         <div>
           <h2 className="text-2xl font-extrabold text-[#333]">Shipping info</h2>
-          <h3>เลือกที่อยู่ (ถ้ามี)</h3>
+          <h3>เลือกที่อยู่ (กรณีที่เพิ่มที่อยู่ใน Profile)</h3>
           {loading ? (
             <p>Loading...</p>
           ) : addresses.length > 0 ? (

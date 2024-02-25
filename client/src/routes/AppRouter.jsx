@@ -6,7 +6,12 @@ import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import UserProduct from "../pages/users/UserProduct";
+
 import AdminPage from "../pages/admin/AdminPage";
+import AddProductForm from "../pages/admin/addProductForm"
+import  Navbar from '../pages/admin/Navbar'
+import Dashboard from '../pages/admin/Dashboard'
+
 import UserProfile from "../pages/users/UserProfile";
 import NotFound from "../components/NotFound";
 import HomePage from "../pages/HomePage";
@@ -18,7 +23,6 @@ import Address from '../pages/users/address'
 import OrderStatus from '../pages/users/orderStatus'
 import OrderHistory from '../pages/users/orderHistory'
 // สร้าง Router สำหรับผู้ใช้ที่ยังไม่ได้เข้าสู่ระบบ
-
 const guestRouter = createBrowserRouter([
   {
     path: "/",
@@ -75,14 +79,15 @@ const adminRouter = createBrowserRouter([
     path: "/",
     element: (
       <>
+        <Navbar/>
         <Outlet />
       </>
     ),
     children: [
       // หน้าหลักสำหรับผู้ใช้ที่เป็น Admin
-      { index: true, element: <AdminPage /> },
-      { path: "/AdminPage", element: <AdminPage /> },
-
+      { index: true, element: <Dashboard /> },
+      { path: "/AddProductForm", element: <AddProductForm/> },
+      { path: "/Dashboard", element: <Dashboard />},
       { path: "*", element: <NotFound /> }
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin
     ]

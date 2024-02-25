@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
+import  ListProduct from '../admin/listProduct'
 import { toast } from 'react-toastify';
 function AddProductForm() {
   const [name, setName] = useState('');
@@ -75,6 +76,7 @@ function AddProductForm() {
     setPreviewImage(URL.createObjectURL(file)); // ใช้ URL.createObjectURL() เพื่อสร้าง URL สำหรับแสดงตัวอย่างรูปภาพ
   };
   return (
+    <>
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="card lg:card-side bg-base-100 shadow-xl mt-4">
         <div className="card-body">
@@ -217,6 +219,8 @@ function AddProductForm() {
         </div>
       </div>
     </form>
+    <ListProduct/>
+    </>
   );
 }
 

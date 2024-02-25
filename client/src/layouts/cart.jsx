@@ -31,32 +31,40 @@ const Cart = () => {
       fetchCartItems();
     }
   }, [id]);
-
   const handleQuantityChange = async (cartItemId, newQuantity, availableStock) => {
     try {
-      if (newQuantity > availableStock) {
+      const token = localStorage.getItem("token");
+  
+      if (newQuantity <= 0) {
+        setError("Quantity must be at least 1.");
+        return;
+      } else if (newQuantity > availableStock) {
         setError("Cannot add more than available stock.");
         return;
       }
   
-      const token = localStorage.getItem("token");
       const updatedCartItems = cartItems.map((item) => {
         if (item.cart_item_id === cartItemId) {
           return { ...item, quantity: newQuantity };
         }
         return item;
       });
+  
+      // อัปเดต cartItems ก่อน
       setCartItems(updatedCartItems);
   
-      await axios.put(
-        `http://localhost:8000/api/cart/${cartItemId}`,
-        {
-          quantity: newQuantity
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      // เพิ่ม delay ก่อนทำการเรียกใช้ axios.put
+      setTimeout(async () => {
+        await axios.put(
+          `http://localhost:8000/api/cart/${cartItemId}`,
+          {
+            quantity: newQuantity
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+      }, 1000); // ปรับเวลา delay ตามที่ต้องการ
     } catch (error) {
       console.error("Failed to update quantity:", error);
       setError("Failed to update quantity. Please try again later.");

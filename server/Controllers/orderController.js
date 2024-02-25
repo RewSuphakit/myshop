@@ -1,5 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = require('../models/db')
 
 const getOrderById = async (req, res) => {
     const userId = req.params.id;
