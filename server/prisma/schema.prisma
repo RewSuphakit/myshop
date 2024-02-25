@@ -64,8 +64,7 @@ model ShoppingCart_Items {
   product        Products  @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: Cascade)
   created_at     DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
   updated_at     DateTime  @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")) @updatedAt @map("updated_at") @db.Timestamp(0)
-  payment        Payments? @relation(fields: [payment_ref_id], references: [payment_id], onDelete: Cascade, onUpdate: Cascade)
-  payment_ref_id Int?
+ 
 }
 
 model Payments {
@@ -75,7 +74,6 @@ model Payments {
   payment_date       DateTime             @default(now()) @map("payment_date") @db.Timestamp(0)
   total_amount       Float
   order              Orders               @relation(fields: [order_id], references: [order_id], onDelete: Cascade, onUpdate: Cascade)
-  ShoppingCart_Items ShoppingCart_Items[]
   updated_at         DateTime             @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")) @updatedAt @map("updated_at") @db.Timestamp(0)
 }
 
