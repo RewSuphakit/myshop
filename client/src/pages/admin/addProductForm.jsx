@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
 import { toast } from 'react-toastify';
+
 function AddProductForm() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -77,6 +78,7 @@ function AddProductForm() {
   const thaiDate = new Date().toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const thaiDateString = `${thaiDate}`;
   return (
+    
     <div className="container mx-auto">
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="card lg:card-side bg-base-100 shadow-xl mt-4">
@@ -204,13 +206,19 @@ function AddProductForm() {
           </div>
           <div className="col-span-1">
             <div className="card bg-base-100 shadow-xl mt-4 p-4">
-              <h2 className="text-xl font-semibold mb-4">Category</h2>
+              <div className="flex justify-between mb-4">
+              <div> <h2 className="text-xl font-semibold mb-4">Category</h2></div>
+              <div></div>
+              <div></div>
+              </div >
+               
+            
               <select
                 id="category"
                 className="border rounded-md py-1 px-2"
                 required
                 value={categoryId}
-                onChange={handleCategoryChange} // เรียกใช้ handleCategoryChange เมื่อมีการเปลี่ยนแปลง
+                onChange={handleCategoryChange} 
               >
                 <option key="" value="">Select Category</option>
                 {categories.map(category =>

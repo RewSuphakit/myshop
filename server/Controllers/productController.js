@@ -119,19 +119,24 @@ exports.create = async (req, res) => {
     res.status(500).json({ error: 'Server Error: Failed to create product' });
   }
 };
-
-exports.update = async (req, res, next) => {
+exports.update = async (req, res) => {
   try {
+    let image = null;
+    if (req.file) {
+      image = await resizeImage(req, res);
+    }
+
     const productId = parseInt(req.params.id);
-    const { name, description, price, stock_quantity, image } = req.body;
+    const { name, description, price, stock_quantity, category_id } = req.body;
     const updatedProduct = await prisma.products.update({
       where: { product_id: productId },
       data: {
         name,
         description,
-        price,
-        stock_quantity,
-        image,
+        price: parseFloat(price),
+        stock_quantity: parseInt(stock_quantity),
+        image, // ส่งตัวแปร image ที่ได้จากการ resizeImage
+        Category_id: parseInt(category_id)
       },
     });
 

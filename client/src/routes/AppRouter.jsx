@@ -12,6 +12,7 @@ import AddProductForm from "../pages/admin/addProductForm"
 import  Navbar from '../pages/admin/Navbar'
 import Dashboard from '../pages/admin/Dashboard'
 import ListProduct from '../pages/admin/listProduct'
+import EditProduct from '../pages/admin/editProduct'
 
 import UserProfile from "../pages/users/UserProfile";
 import NotFound from "../components/NotFound";
@@ -93,7 +94,7 @@ const adminRouter = createBrowserRouter([
       { path: "/AddProductForm", element: <AddProductForm/> },
       { path: "/Dashboard", element: <Dashboard />},
       { path: "/ListProduct", element: <ListProduct /> },
-      // { path:"/Product/:id",element :<EditProductForm />},
+      { path:"/EditProduct/:id",element :<EditProduct />},
       { path: "*", element: <NotFound /> }
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin
     ]

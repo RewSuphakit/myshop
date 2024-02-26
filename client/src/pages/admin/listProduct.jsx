@@ -7,7 +7,6 @@ function ListProduct() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5); // จำนวนสินค้าต่อหน้า
-
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   useEffect(() => {
@@ -22,7 +21,7 @@ function ListProduct() {
     fetchProducts();
   }, []);
 
-  // Pagination Logic
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -30,7 +29,7 @@ function ListProduct() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleEditProduct = (productId) => {
-    navigate('/products/' + productId);
+    navigate('/EditProduct/' + productId);
   };
 
   return (
