@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { MdLogin } from "react-icons/md";
+
 export default function LoginForm() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -13,17 +14,20 @@ export default function LoginForm() {
     password: ""
   });
 
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
   const hdlChange = e => {
     setInput(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   const hdlSubmit = async e => {
     try {
       e.preventDefault();
-
-      const rs = await axios.post("http://localhost:8000/auth/login", input);
+  
+      const rs = await axios.post(`${apiUrl}/auth/login`, input);
       localStorage.setItem("token", rs.data.token);
-
-      const rs1 = await axios.get("http://localhost:8000/auth/profile", {
+  
+      const rs1 = await axios.get(`${apiUrl}/auth/profile`, {
         headers: { Authorization: `Bearer ${rs.data.token}` }
       });
       setUser(rs1.data);
@@ -52,6 +56,7 @@ export default function LoginForm() {
       }
     }
   };
+
   return (
     <>
       <div className=" text-gray-900 flex justify-center mb-4">

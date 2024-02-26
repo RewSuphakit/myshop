@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import { toast } from 'react-toastify';
+import { useNavigate} from "react-router-dom";
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const initialState = {
     first_name: "",
     last_name: "",
@@ -23,15 +27,15 @@ export default function RegisterForm() {
       if (input.password !== input.confirmPassword) {
         return alert("Please check confirm password");
       }
-      const rs = await axios.post("http://localhost:8000/auth/register", input);
-      console.log(rs);
+      const rs = await axios.post(`${apiUrl}/auth/register`, input);
       if (rs.status === 200) {
-        alert("Register Successful");
+        toast.success("Register Successful");
+        navigate("/Login")
         // Clear the form
         setInput(initialState);
       }
     } catch (err) {
-      console.log(err.message);
+      toast.error("มีอีเมลซ้ำ");
     }
   };
 

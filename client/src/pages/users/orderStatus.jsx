@@ -8,7 +8,7 @@ function OrderStatus() {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [status, setStatus] = useState({});
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const convertToThaiTime = (isoDate) => {
     const dateParts = isoDate.split("T")[0].split("-");
     const timeParts = isoDate.split("T")[1].split(":");
@@ -22,7 +22,7 @@ function OrderStatus() {
     try {
       let token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:8000/order/status/${orderId}`,
+        `${apiUrl}/order/status/${orderId}`,
         {
           status: newStatus
         },
@@ -30,21 +30,20 @@ function OrderStatus() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      setStatus((prevStatus) => ({
-        ...prevStatus,
-        [orderId]: newStatus
-      }));
+      fetchOrder();
     } catch (error) {
       console.error(`Error marking order as ${newStatus}:`, error.message);
     }
   };
   
   useEffect(() => {
+    fetchOrder();
+  }, []);
     const fetchOrder = async () => {
       try {
         let token = localStorage.getItem("token");
         const res = await axios.get(
-          `http://localhost:8000/order/order/${user.user_id}`,
+          `${apiUrl}/order/order/${user.user_id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
             params: {
@@ -60,8 +59,7 @@ function OrderStatus() {
         console.error("Error fetching order:", error.message);
       }
     };
-    fetchOrder();
-  }, [id]);
+  
   const statusColors = {
     pending: "bg-yellow-500 text-white px-2 py-1 rounded-md text-xs ",
     Cancelled: "bg-red-500 text-white px-2 py-1 rounded-md text-xs",
@@ -112,7 +110,7 @@ function OrderStatus() {
                         <img
                           src={
                             item.product?.image
-                              ? `http://localhost:8000/${item.product.image.replace(
+                              ? `${apiUrl}/${item.product.image.replace(
                                   /\\/g,
                                   "/"
                                 )}`

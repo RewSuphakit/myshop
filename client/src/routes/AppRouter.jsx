@@ -11,6 +11,7 @@ import AdminPage from "../pages/admin/AdminPage";
 import AddProductForm from "../pages/admin/addProductForm"
 import  Navbar from '../pages/admin/Navbar'
 import Dashboard from '../pages/admin/Dashboard'
+import ListProduct from '../pages/admin/listProduct'
 
 import UserProfile from "../pages/users/UserProfile";
 import NotFound from "../components/NotFound";
@@ -40,6 +41,8 @@ const guestRouter = createBrowserRouter([
       { path: "/login", element: <LoginForm /> },
       // หน้าลงทะเบียน
       { path: "/register", element: <RegisterForm /> },
+      { path: "/Contact", element: <Contact /> },
+
       // เพิ่มเส้นทางสำหรับ 404 Not Found
       { path: "*", element: <NotFound /> }
     ]
@@ -54,6 +57,7 @@ const userRouter = createBrowserRouter([
       <>
         <Header />
         <Outlet />
+        <Footer />
       </>
     ),
     children: [
@@ -88,6 +92,8 @@ const adminRouter = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       { path: "/AddProductForm", element: <AddProductForm/> },
       { path: "/Dashboard", element: <Dashboard />},
+      { path: "/ListProduct", element: <ListProduct /> },
+      // { path:"/Product/:id",element :<EditProductForm />},
       { path: "*", element: <NotFound /> }
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin
     ]

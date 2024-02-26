@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
-import  ListProduct from '../admin/listProduct'
 import { toast } from 'react-toastify';
 function AddProductForm() {
   const [name, setName] = useState('');
@@ -13,13 +12,14 @@ function AddProductForm() {
   const [categories, setCategories] = useState([]);
   const [selectedCategoryName, setSelectedCategoryName] = useState('Select Category'); // เพิ่มตัวแปรเพื่อเก็บชื่อหมวดหมู่ที่เลือก
   const [previewImage, setPreviewImage] = useState(null);// เพิ่มตัวแปรสำหรับเก็บ URL ของรูปภาพที่แสดงตัวอย่าง
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/categories/");
+      const res = await axios.get(`${apiUrl}/api/categories/`);
       setCategories(res.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -39,7 +39,7 @@ function AddProductForm() {
       formData.append('category_id', categoryId);
     
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:8000/api/products', formData, {
+      const response = await axios.post(`${apiUrl}/api/products`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -66,26 +66,31 @@ function AddProductForm() {
     const selectedCategoryId = e.target.value;
     setCategoryId(selectedCategoryId);
 
-    // หาชื่อของหมวดหมู่ที่เลือก
     const selectedCategory = categories.find(category => category.category_id === selectedCategoryId);
     setSelectedCategoryName(selectedCategory.name);
   };
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreviewImage(URL.createObjectURL(file)); // ใช้ URL.createObjectURL() เพื่อสร้าง URL สำหรับแสดงตัวอย่างรูปภาพ
+    setPreviewImage(URL.createObjectURL(file)); 
   };
+  const thaiDate = new Date().toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const thaiDateString = `${thaiDate}`;
   return (
-    <>
+    <div className="container mx-auto">
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="card lg:card-side bg-base-100 shadow-xl mt-4">
         <div className="card-body">
-          <h1 className="text-[30px] font-bold">Add Product</h1>
-          <div className="flex justify-end">
+        <div className="flex  justify-between">
+         <div><h3 className="text-[30px] font-bold">Add Product</h3></div>
+         <div className="text-2xl">{thaiDateString}</div>
+          <div>
             <button className="btn btn-primary" type="submit">
               Add Product
-            </button>
+            </button></div>   
           </div>
+        
+         
         </div>
       </div>
       <div className="col-span-1 lg:w-3/4 mx-auto">
@@ -135,7 +140,7 @@ function AddProductForm() {
               </label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
   {previewImage ? (
-    <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover" /> // ถ้ามีรูปภาพตัวอย่างแสดงรูป
+    <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover" />
   ) : (
     <div className="text-center">
       <div className="mt-4 flex text-sm leading-6 text-gray-600">
@@ -219,8 +224,7 @@ function AddProductForm() {
         </div>
       </div>
     </form>
-    <ListProduct/>
-    </>
+    </div>
   );
 }
 

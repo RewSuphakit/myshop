@@ -28,7 +28,7 @@ exports.listCart = async (req, res, next) => {
                 ...item,
                 product: {
                     ...item.product,
-                    image: item.product.image ? `http://localhost:8000/${item.product.image.replace(/\\/g, '/')}` : null
+                    image: item.product.image 
                 }
             };
         });
@@ -122,7 +122,7 @@ exports.getCartItems = async (req, res) => {
                 ...item,
                 product: {
                     ...item.product,
-                    image: item.product.image ? `http://localhost:8000/${item.product.image.replace(/\\/g, '/')}` : null
+                    image: item.product.image 
                 }
             };
         });

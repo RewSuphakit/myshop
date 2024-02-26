@@ -11,7 +11,7 @@ function EditProfile() {
   const [lastName, setLastName] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [profileData,setProfileData] = useState();
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     if (user) {
       setFirstName(user.first_name);
@@ -24,7 +24,7 @@ function EditProfile() {
     try {
       const token = localStorage.getItem('token'); 
       await axios.put(
-        `http://localhost:8000/auth/profile/${user.user_id}`,
+        `${apiUrl}/auth/profile/${user.user_id}`,
         {
           first_name: firstName,
           last_name: lastName,

@@ -8,7 +8,7 @@ function AuthContextProvider(props) {
   // สร้าง state เพื่อเก็บข้อมูลผู้ใช้และสถานะการโหลด
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   // useEffect ทำงานเมื่อ user หรือ lastUpdatedAt เปลี่ยนแปลง
   useEffect(() => {
@@ -18,7 +18,7 @@ function AuthContextProvider(props) {
         const token = localStorage.getItem('token');
         if (!token) { return; }
         
-        const rs = await axios.get('http://localhost:8000/auth/profile', {
+        const rs = await axios.get(`${apiUrl}/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         

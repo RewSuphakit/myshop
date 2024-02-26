@@ -13,11 +13,11 @@ const Product = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let url = "http://localhost:8000/api/products/";
+        let url = `${apiUrl}/api/products/`;
         if (selectedCategory) {
           url += `?category=${selectedCategory}`;
         }
@@ -30,7 +30,7 @@ const Product = () => {
 
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/categories/");
+        const res = await axios.get(`${apiUrl}/api/categories/`);
         setCategories(res.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -112,10 +112,22 @@ const Product = () => {
                   {product.stock_quantity > 0 ? (
                     product.image ? (
                       <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-96 object-contain"
-                      />
+                      src={
+                       product?.image
+                          ? `${apiUrl}/${product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
+                      alt={product.name}
+                      className="w-full h-96 object-contain"
+                    />
+                      // <img
+                      //   src={product.image}
+                      //   alt={product.name}
+                      //   className="w-full h-96 object-contain"
+                      // />
                     ) : (
                       <div className="h-32 w-full bg-gray-200"></div>
                     )
@@ -191,7 +203,6 @@ const Product = () => {
         </ul>
       )}
     </div>
-
 
     </>
   );

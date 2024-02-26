@@ -11,13 +11,13 @@ const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [cartInfo, setCartInfo] = useState({totalItems:0,totalPrice:0});
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     if (user?.user_id) {
       const fetchCartInfo = async () => {
         try {
           const token = localStorage.getItem('token');
-          const res = await axios.get(`http://localhost:8000/api/cart/${user.user_id}`, {
+          const res = await axios.get(`${apiUrl}/api/cart/${user.user_id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           const cartItems = res.data.cartItems;
@@ -74,7 +74,7 @@ const Header = () => {
   );
 
   return (
-    <div className="border f">
+    <div className="border ">
       <div className="navbar sticky top-0 z-50 container mx-auto rounded-lg">
         <div className="navbar-start ">
           <div className="dropdown ">

@@ -14,7 +14,7 @@ const Address = () => {
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [phone, setPhone] = useState('');
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     fetchAddress();
   }, []);
@@ -22,7 +22,7 @@ const Address = () => {
   const fetchAddress = async () => {
     try {
       let token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:8000/address', {
+      const res = await axios.get(`${apiUrl}/address`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAddresses(res.data.addresses);
@@ -38,7 +38,7 @@ const Address = () => {
     e.preventDefault();
     try {
       let token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:8000/address/add', {
+      const res = await axios.post(`${apiUrl}/address/add`, {
         recipient_name: recipient_name,
         address_line1: address_line1,
         address_line2: address_line2,
@@ -78,7 +78,7 @@ const Address = () => {
   const handleDeleteAddress = async (id) => {
     try {
       let token = localStorage.getItem('token');
-      const response = await axios.delete(`http://localhost:8000/address/delete/${id}`, {
+      const response = await axios.delete(`${apiUrl}/address/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
   
@@ -99,10 +99,10 @@ const Address = () => {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">เพิ่มที่อยู่</h2>
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto max-h-[400px]">
   <div className="grid grid-cols-1   sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  lg:w-[100rem] gap-4">
     {addresses && addresses.map((address) => (
-      <div key={address.address_id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg  ml-2 my-4 overflow-x-auto ">
+      <div key={address.address_id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg  ml-2 my-4 overflow-y-auto ">
         <div className="mb-4">
           <strong>ชื่อผู้รับ:</strong> {address.recipient_name}
         </div>

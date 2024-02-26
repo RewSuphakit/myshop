@@ -8,12 +8,12 @@ import { Link } from "react-router-dom";
 
 const ProductNew = () => {
   const [products, setProducts] = useState([]);
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/products/?sort=desc"
+          `${apiUrl}/api/products/?sort=desc`
         );
         const filteredProducts = res.data.filter(product => product.stock_quantity > 0);
         const productsWithRecentBadge = filteredProducts.map(product => ({
@@ -91,8 +91,15 @@ const ProductNew = () => {
                   {product.image ? (
                   <>
                   <div className="relative">
-                    <img
-                      src={product.image}
+                  <img
+                      src={
+                       product?.image
+                          ? `${apiUrl}/${product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
                       alt={product.name}
                       className="w-full h-48 object-cover"
                     />

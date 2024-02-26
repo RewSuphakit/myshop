@@ -39,7 +39,7 @@ exports.list = async (req, res, next) => {
     products = products.map(product => {
       return {
         ...product,
-        image: product.image ? `http://localhost:8000/${product.image.replace(/\\/g, '/')}` : null
+        image: product.image 
       };
     });
 
@@ -69,7 +69,7 @@ exports.read = async (req, res, next) => {
 
     const productWithCorrectedImageURL = {
       ...product,
-      image: product.image ? `http://localhost:8000/${product.image.replace(/\\/g, '/')}` : null
+      image: product.image
     };
 
     res.json(productWithCorrectedImageURL);

@@ -30,7 +30,7 @@ function Navbar() {
   };
   return (
     <div>
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 border ">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -38,7 +38,8 @@ function Navbar() {
       </div>
       <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
       <li><Link to="Dashboard">Dashboard</Link></li>
-        <li><Link to="/AddProductForm">Product</Link></li>
+         <li><Link to="/AddProductForm">Product</Link></li>
+        <li><Link to="/listProduct">ListProduct</Link></li>
       </ul>
     </div>
     <a className="btn btn-ghost text-xl">Admin</a>
@@ -46,7 +47,8 @@ function Navbar() {
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
     <li><Link to="Dashboard">Dashboard</Link></li>
-    <li><Link to="/AddProductForm">Product</Link></li>
+    <li><Link to="/AddProductForm">AddProduct</Link></li>
+    <li><Link to="/listProduct">ListProduct</Link></li>
     </ul>
   </div>
   <div className="navbar-end">

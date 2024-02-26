@@ -14,12 +14,14 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState(null);
-    const { user } = useAuth();
+  const { user } = useAuth();
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
   useEffect(
     () => {
       const fetchProducts = async () => {
         try {
-          let url = "http://localhost:8000/api/products/";
+          let url = `${apiUrl}/api/products/`;
           if (selectedCategory) {
             url += `?category=${selectedCategory}`;
           }
@@ -32,7 +34,7 @@ export default function HomePage() {
 
       const fetchCategories = async () => {
         try {
-          const res = await axios.get("http://localhost:8000/api/categories/");
+          const res = await axios.get(`${apiUrl}/api/categories/`);
           setCategories(res.data);
         } catch (error) {
           console.error("Error fetching categories:", error); // Log the error
@@ -122,8 +124,15 @@ export default function HomePage() {
                   {product.image ? (
                   <>
                   <div className="relative">
-                    <img
-                      src={product.image}
+                  <img
+                      src={
+                       product?.image
+                          ? `${apiUrl}/${product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
                       alt={product.name}
                       className="w-full h-48 object-cover"
                     />
@@ -204,8 +213,15 @@ export default function HomePage() {
                   {product.stock_quantity > 0 ? (
                     product.image ? (
                       <img
-                        src={product.image}
-                        alt={product.name}
+                      src={
+                       product?.image
+                          ? `${apiUrl}/${product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
+                      alt={product.name}
                         className="w-full h-96 object-contain"
                       />
                     ) : (

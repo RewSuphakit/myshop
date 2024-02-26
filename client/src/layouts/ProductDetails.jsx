@@ -13,12 +13,12 @@ const ProductDetails = ({ userId }) => {
     const [quantity, setQuantity] = useState(1); // จำนวนสินค้า
     const { id } = useParams();
     const { user } = useAuth();
-
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
                 let token = localStorage.getItem('token');
-                const res = await axios.get(`http://localhost:8000/api/products/${id}`, {
+                const res = await axios.get(`${apiUrl}/api/products/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setProduct(res.data);
@@ -46,7 +46,7 @@ const ProductDetails = ({ userId }) => {
             };
 
             let token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:8000/api/cart', cartData, {
+            const response = await axios.post(`${apiUrl}/api/cart`, cartData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json', // ระบุ Content-Type เป็น JSON
@@ -89,13 +89,23 @@ const ProductDetails = ({ userId }) => {
                 <div>
                     <div className="bg-white p-4 shadow-md rounded-md flex">
                         <div className="w-full md:w-1/3 mr-4">
-                            <img src={product.image} alt={product.name} className="w-full h-auto object-cover rounded-md box-content border-2" />
+                        <img
+                      src={
+                       product?.image
+                          ? `${apiUrl}/${product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
+                      alt={product.name}
+                            className="w-full h-auto object-cover rounded-md box-content border-2" />
                         </div>
                         <div className="w-full md:w-2/3">
                             <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
                             <p className="mb-4 text-gray-600">{product.description}</p>
-                            <p className="text-gray-600">Price: {product.price} บาท</p>
-                            <p className="text-gray-600">Stock Quantity: {product.stock_quantity}</p>
+                            <p className="text-gray-600">ราคา: {product.price} บาท</p>
+                            <p className="text-gray-600">จำนวนสินค้า: {product.stock_quantity}</p>
                             <div className="flex items-center mb-4">
                                 <div className="flex items-center border border-gray-300 rounded">
                                     <button onClick={decreaseQuantity} className="px-3 py-1 border-r border-gray-300">-</button>

@@ -11,12 +11,12 @@ function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage] = useState(5); 
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         let token = localStorage.getItem('token');
-        const res = await axios.get(`http://localhost:8000/api/reviews/${id}`, {
+        const res = await axios.get(`${apiUrl}/api/reviews/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setReviews(res.data.reviews);
@@ -33,7 +33,11 @@ function Reviews() {
 
   const handleAddComment = async () => {
     try {
-    
+      if(newComment===''){
+        toast.error('โปรดเขียนคอมเม้นก่อนกดเพิ่มครับ')
+        return newComment
+      }
+  
       const commentData = {
         productId: id,
         userId: user.user_id,
@@ -42,7 +46,7 @@ function Reviews() {
       };
 
       let token = localStorage.getItem('token');
-      const response = await axios.post(`http://localhost:8000/api/reviews/${id}`, commentData, {
+      const response = await axios.post(`${apiUrl}/api/reviews/${id}`, commentData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -116,7 +120,7 @@ const cancelEditReview = () => {
 const submitEditedReview = async () => {
   try {
     let token = localStorage.getItem('token');
-    const response = await axios.put(`http://localhost:8000/api/reviews/${editingReviewId}`, {
+    const response = await axios.put(`${apiUrl}/api/reviews/${editingReviewId}`, {
       comment: editedComment,
       user: {
         first_name: user.first_name,

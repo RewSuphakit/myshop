@@ -5,6 +5,7 @@ import { useParams, useNavigate ,Link} from "react-router-dom";
 import { toast } from 'react-toastify';
 
 const Cart = () => {
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const Cart = () => {
     const fetchCartItems = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`http://localhost:8000/api/cart/${id}`, {
+        const res = await axios.get(`${apiUrl}/api/cart/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCartItems(res.data.cartItems);
@@ -56,7 +57,7 @@ const Cart = () => {
       // เพิ่ม delay ก่อนทำการเรียกใช้ axios.put
       setTimeout(async () => {
         await axios.put(
-          `http://localhost:8000/api/cart/${cartItemId}`,
+          `${apiUrl}/api/cart/${cartItemId}`,
           {
             quantity: newQuantity
           },
@@ -74,7 +75,7 @@ const Cart = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.delete(
-        `http://localhost:8000/api/cart/${cartItemId}`,
+        `${apiUrl}/api/cart/${cartItemId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           data: { cartItemId }
@@ -82,7 +83,7 @@ const Cart = () => {
       );
       if (res.status === 200) {
         // เรียก API เพื่ออัปเดตข้อมูลตะกร้า
-        const newRes = await axios.get(`http://localhost:8000/api/cart/${id}`, {
+        const newRes = await axios.get(`${apiUrl}/api/cart/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCartItems(newRes.data.cartItems);
@@ -119,7 +120,7 @@ const handleCheckOut = async () => {
   const totalItemsInCart = countTotalItems();
 
   // ตรวจสอบจำนวนสินค้าใน product
-  const products = await axios.get("http://localhost:8000/api/products");
+  const products = await axios.get(`${apiUrl}/api/products`);
   const productIdsInCart = cartItems.map(item => item.product.product_id);
   const productsInCart = products.data.filter(product => productIdsInCart.includes(product.product_id));
   let isProductAvailable = true;
@@ -162,16 +163,23 @@ const handleCheckOut = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <>
-            <div className="md:col-span-2 space-y-8">
+            <div className="md:col-span-2 space-y-8 overflow-y-auto max-h-[500px]  md:max-h-auto sm:max-h-[500px] ">
               {cartItems.map((item) => (
              
                 <div
                   key={item.cart_item_id}
                   className="bg-white rounded-lg p-6   shadow-md flex items-start overflow-y-auto"
                 >
-                  <img
-                    src={item.product.image}
-                    alt="product-image"
+                    <img
+                      src={
+                       item.product?.image
+                          ? `${apiUrl}/${item.product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
+                      alt={item.product.name}
                     className="w-24 md:w-30 rounded-lg mr-6"
                   />
                   <div className="flex-grow flex justify-between">

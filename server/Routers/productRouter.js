@@ -2,8 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../Middleware/authenticate');
-const upload  = require('../middleware/uploads');
-const resizeImage = require('../middleware/resizeImage');
+const upload  = require('../Middleware/uploads');
+const resizeImage = require('../Middleware/resizeImage');
 const { read, list, create, update, remove } = require('../Controllers/productController');
 const { listCategories, createCategory, updateCategory, removeCategory } = require('../Controllers/categoryController');
 const { addToCart,listCart,getCartItems, deleteCartItem, updateCartItems } = require('../Controllers/cartController');

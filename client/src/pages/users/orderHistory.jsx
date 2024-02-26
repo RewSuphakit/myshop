@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 function OrderHistory() {
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const { id } = useParams();
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
@@ -21,7 +22,7 @@ function OrderHistory() {
       try {
         let token = localStorage.getItem("token");
         const res = await axios.get(
-          `http://localhost:8000/order/order/${user.user_id}`,
+          `${apiUrl}/order/order/${user.user_id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
             params: {
@@ -91,7 +92,7 @@ function OrderHistory() {
                       <img
                         src={
                           item.product?.image
-                            ? `http://localhost:8000/${item.product.image.replace(
+                            ? `${apiUrl}/${item.product.image.replace(
                                 /\\/g,
                                 "/"
                               )}`

@@ -4,13 +4,13 @@ import axios from "axios";
 const Payments = ({ cartItems, calculateTotalPrice, handleCheckout }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const handlePayment = async () => {
     setLoading(true);
     try {
       // Perform payment processing logic here
       // For demonstration purpose, let's assume a successful payment
-      await axios.post("http://localhost:8000/api/payment", {
+      await axios.post(`${apiUrl}/api/payment`, {
         // Provide necessary payment information here
         // Example: items: cartItems, totalPrice: calculateTotalPrice()
       });

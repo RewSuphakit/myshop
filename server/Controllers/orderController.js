@@ -1,5 +1,72 @@
 const prisma = require('../models/db')
 
+const countOrder = async (req, res) => {
+  try {
+    const totalOrders = await prisma.orders.count();
+    res.status(200).json({ totalOrders });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: 'Error getting the total count of Orders' });
+  }
+}
+
+const listOrder = async (req, res) => {
+  try {
+    const orders = await prisma.orders.findMany({
+      include: {
+        user: true, 
+        orderItems: {
+          include: {
+            product: true, 
+            address: true   
+          }
+        }
+      }
+    });
+    
+    // จัดกลุ่มรายการสั่งซื้อตามที่อยู่ที่ไม่ซ้ำกันภายในคำสั่งเดียวกัน
+    const formattedOrders = orders.map(order => {
+      const groupedItems = {};
+      order.orderItems.forEach(item => {
+        const addressId = item.address.address_id;
+        if (!groupedItems[addressId]) {
+          groupedItems[addressId] = {
+            address: {
+              recipientName: item.address.recipient_name,
+              addressLine1: item.address.address_line1,
+              addressLine2: item.address.address_line2,
+              city: item.address.city,
+              state: item.address.state,
+              postalCode: item.address.postal_code,
+              phone: item.address.phone
+            },
+            items: []
+          };
+        }
+        groupedItems[addressId].items.push({
+          quantity: item.quantity,
+          price: item.price_per_item,
+          productName: item.product.name
+        });
+      });
+      
+      // สร้างวัตถุรูปแบบคำสั่งซื้อเพื่อรวมรายละเอียดคำสั่งซื้อพร้อมที่อยู่ที่จัดกลุ่มและสินค้าของพวกเขา
+      return {
+        orderId: order.order_id,
+        orderDate: order.order_date,
+        status: order.status,
+        userBuy: `${order.user.first_name} ${order.user.last_name}`,
+        addresses: Object.values(groupedItems)
+      };
+    });
+    
+    res.status(200).json({ orders: formattedOrders });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: 'Error getting the list of orders' });
+  }
+}
+
 const getOrderById = async (req, res) => {
     const userId = req.params.id;
     try {
@@ -67,5 +134,7 @@ const deleteOrder = async (req, res) => {
 module.exports = {
   getOrderById,
   updateOrderStatus,
-  deleteOrder
+  deleteOrder,
+  countOrder,
+  listOrder
 };

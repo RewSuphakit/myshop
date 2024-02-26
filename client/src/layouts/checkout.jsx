@@ -14,8 +14,7 @@ const Checkout = () => {
   const [phone, setPhone] = useState('');
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
-
-
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const navigate = useNavigate();
   const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
@@ -33,7 +32,7 @@ const Checkout = () => {
           userId: user.user_id
         };
         const token = localStorage.getItem("token");
-        const res = await axios.get(`http://localhost:8000/api/cart`, {
+        const res = await axios.get(`${apiUrl}/api/cart`, {
           headers: {
             Authorization: `Bearer ${token}`
           },
@@ -70,7 +69,7 @@ const Checkout = () => {
   
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8000/address/add",
+        `${apiUrl}/address/add`,
         newAddressData,
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -111,7 +110,7 @@ const Checkout = () => {
       const token = localStorage.getItem("token");
       
       await axios.post(
-        "http://localhost:8000/checkout/checkout",
+        `${apiUrl}/checkout/checkout`,
         { ...ordersData, cartItems, paymentMethod, totalAmount },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -151,7 +150,7 @@ const Checkout = () => {
       if (!addresses || addresses.length === 0) {
         try {
           const token = localStorage.getItem("token");
-          const res = await axios.get("http://localhost:8000/address", {
+          const res = await axios.get(`${apiUrl}/address`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setAddresses(res.data.addresses);
@@ -378,10 +377,17 @@ const Checkout = () => {
                         className="grid sm:grid-cols-2 items-start gap-6"
                       >
                         <div className="max-w-[190px] px-4 py-6 shrink-0 bg-gray-200 rounded-md">
-                          <img
-                            src={item.product.image}
+                        <img
+                      src={
+                       item.product?.image
+                          ? `${apiUrl}/${item.product.image.replace(
+                              /\\/g,
+                              "/"
+                            )}`
+                          : null
+                      }
+                      alt={item.product.name}
                             className="w-full object-contain"
-                            alt="product"
                           />
                         </div>
                         <div>

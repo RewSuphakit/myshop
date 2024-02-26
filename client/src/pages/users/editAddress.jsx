@@ -7,6 +7,7 @@ import { FaEdit } from "react-icons/fa";
 import { toast } from 'react-toastify';
 
 function EditAddress({ addresses, fetchAddress }) {
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const { id } = useParams();
   const { user } = useAuth(); 
   const [showModal, setShowModal] = useState(false);
@@ -34,7 +35,7 @@ function EditAddress({ addresses, fetchAddress }) {
   const handleSubmit = async () => {
     event.preventDefault();
     const token = localStorage.getItem('token'); 
-    await axios.put(`http://localhost:8000/address/update/${addresses.address_id}`, {
+    await axios.put(`${apiUrl}/address/update/${addresses.address_id}`, {
       recipient_name: recipient_name,
       address_line1: address_line1,
       address_line2: address_line2,
