@@ -173,7 +173,7 @@ const handleCheckOut = async () => {
                     <img
                       src={
                        item.product?.image
-                          ? `${apiUrl}/${item.product.image.replace(
+                          ? `${apiUrl}/uploads/${item.product.image.replace(
                               /\\/g,
                               "/"
                             )}`

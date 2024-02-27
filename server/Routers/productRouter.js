@@ -2,8 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../Middleware/authenticate');
-const upload  = require('../Middleware/uploads');
-const resizeImage = require('../Middleware/resizeImage');
+const upload = require('../Middleware/uploads');
 const { read, list, create, update, remove } = require('../Controllers/productController');
 const { listCategories, createCategory, updateCategory, removeCategory } = require('../Controllers/categoryController');
 const { addToCart,listCart,getCartItems, deleteCartItem, updateCartItems } = require('../Controllers/cartController');
@@ -12,8 +11,8 @@ const { listReviews, addReview, updateReview, deleteReview } = require('../Contr
 // Routes for products
 router.get('/products', list);
 router.get('/products/:id', authenticate, read);
-router.post('/products', authenticate,  upload.single('image'),resizeImage,create);
-router.put('/products/:id', authenticate, upload.single('image'),resizeImage,update);
+router.post('/products', authenticate,  upload.single('image'),create);
+router.put('/products/:id', authenticate, upload.single('image'),update);
 router.delete('/products/:id', authenticate, remove);
 
 // Routes for categories

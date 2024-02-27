@@ -129,6 +129,7 @@ function EditProduct() {
             type="number"
             placeholder="Product Price"
             value={price}
+            min="1"
             onChange={(e) => setPrice(e.target.value)}
           />
         </div>
@@ -142,6 +143,7 @@ function EditProduct() {
             type="number"
             placeholder="Stock Quantity"
             value={stockQuantity}
+            min="1"
             onChange={(e) => setStockQuantity(e.target.value)}
           />
         </div>

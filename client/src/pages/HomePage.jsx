@@ -127,7 +127,7 @@ export default function HomePage() {
                   <img
                       src={
                        product?.image
-                          ? `${apiUrl}/${product.image.replace(
+                          ? `${apiUrl}/uploads/${product.image.replace(
                               /\\/g,
                               "/"
                             )}`
@@ -215,7 +215,7 @@ export default function HomePage() {
                       <img
                       src={
                        product?.image
-                          ? `${apiUrl}/${product.image.replace(
+                          ? `${apiUrl}/uploads/${product.image.replace(
                               /\\/g,
                               "/"
                             )}`

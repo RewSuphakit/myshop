@@ -94,7 +94,7 @@ const ProductNew = () => {
                   <img
                       src={
                        product?.image
-                          ? `${apiUrl}/${product.image.replace(
+                          ? `${apiUrl}/uploads/${product.image.replace(
                               /\\/g,
                               "/"
                             )}`

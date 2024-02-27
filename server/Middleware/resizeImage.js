@@ -1,7 +1,5 @@
-// resizeImage.js
-const sharp = require('sharp');
 const fs = require('fs');
-
+const sharp = require('sharp');
 const resizeImage = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -10,16 +8,18 @@ const resizeImage = async (req, res, next) => {
 
     const { path } = req.file;
     
-    // ปรับขนาดรูปภาพด้วย sharp
     const resizedImagePath = `uploads/resized-${Date.now()}.png`;
     await sharp(path)
-      .resize({ width: 500 }) // ปรับขนาดให้กว้างเป็น 500 พิกเซล
-      .toFile(resizedImagePath); // เก็บรูปที่ปรับขนาดลงในโฟลเดอร์ uploads และเพิ่มคำว่า resized- นำหน้าชื่อไฟล์เดิม
+      .resize({ width: 500 })
+      .toFile(resizedImagePath);
 
-    // ลบไฟล์ที่อัปโหลด
-    fs.unlinkSync(path);
+      fs.unlinkSync(path, (err) => { // แก้ไขนี้โดยเพิ่ม callback function
+      if (err) {
+        throw err; // จัดการข้อผิดพลาดในการลบไฟล์
+      }
+      console.log(`Deleted file: ${path}`);
+    });
 
-    // ส่งเส้นทางของรูปที่ถูกปรับขนาดกลับ
     return resizedImagePath;
   } catch (error) {
     next(error);

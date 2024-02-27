@@ -92,14 +92,14 @@ function OrderHistory() {
                       <img
                         src={
                           item.product?.image
-                            ? `${apiUrl}/${item.product.image.replace(
+                            ? `${apiUrl}/uploads/${item.product.image.replace(
                                 /\\/g,
                                 "/"
                               )}`
                             : null
                         }
                         alt={item.product.name}
-                        className="w-16 h-16 rounded-full mr-4"
+                        className="w-16 h-16  mr-4"
                       />
                       <p className="text-warp text-balance  text">
                         {item.product?.name} x{item.quantity}

@@ -18,6 +18,7 @@ function AddProductForm() {
     fetchCategories();
   }, []);
 
+
   const fetchCategories = async () => {
     try {
       const res = await axios.get(`${apiUrl}/api/categories/`);
@@ -37,7 +38,7 @@ function AddProductForm() {
       formData.append('price', parseFloat(price));
       formData.append('stock_quantity', parseInt(stockQuantity));
       formData.append('image', image);
-      formData.append('category_id', categoryId);
+      formData.append('Category_id', categoryId);
     
       const token = localStorage.getItem('token');
       const response = await axios.post(`${apiUrl}/api/products`, formData, {
@@ -66,9 +67,13 @@ function AddProductForm() {
   const handleCategoryChange = (e) => {
     const selectedCategoryId = e.target.value;
     setCategoryId(selectedCategoryId);
-
+  
     const selectedCategory = categories.find(category => category.category_id === selectedCategoryId);
-    setSelectedCategoryName(selectedCategory.name);
+    if (selectedCategory) {
+      setSelectedCategoryName(selectedCategory.name);
+    } else {
+      setSelectedCategoryName('Select Category');
+    }
   };
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -152,7 +157,7 @@ function AddProductForm() {
           <MdOutlineAddPhotoAlternate size={20} className="mr-2" />
           <span>Upload a file</span>
           <input
-            id="file-upload"
+            id="image"
             name="image"
             type="file"
             className="hidden"
@@ -211,8 +216,7 @@ function AddProductForm() {
               <div></div>
               <div></div>
               </div >
-               
-            
+    
               <select
                 id="category"
                 className="border rounded-md py-1 px-2"

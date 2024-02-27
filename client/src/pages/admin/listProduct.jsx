@@ -53,7 +53,7 @@ function ListProduct() {
               <td>{index + 1}</td>
               <td>
                 <img
-                  src={product.image ? `${apiUrl}/${product.image.replace(/\\/g, "/")}` : null}
+                  src={product.image ? `${apiUrl}/uploads/${product.image.replace(/\\/g, "/")}` : null}
                   alt={product.name}
                   className="w-20 h-20 object-cover"
                 />
@@ -74,7 +74,7 @@ function ListProduct() {
       </table>
 
       {/* Pagination */}
-      <ul className="flex justify-center">
+      <ul className="flex justify-center mt-4">
         {Array.from({ length: Math.ceil(products.length / productsPerPage) }).map((_, index) => (
           <li key={index}>
             <button

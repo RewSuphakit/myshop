@@ -1,9 +1,11 @@
 const prisma = require('../models/db')
-const PAGE_SIZE = 20; 
+const sharp = require('sharp');
+const fs = require('fs');
+const PAGE_SIZE = 100; 
 exports.list = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 20;
+    const pageSize = parseInt(req.query.pageSize) || 100;
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
@@ -80,35 +82,20 @@ exports.read = async (req, res, next) => {
     await prisma.$disconnect();
   }
 };
-// Your create function
 exports.create = async (req, res) => {
   try {
-    const { name, description, price, stock_quantity, category_id } = req.body;
+    const { name, description, price, stock_quantity, Category_id } = req.body;
 
-    if (!price || isNaN(price)) {
-      return res.status(400).json({ error: 'Price is required and must be a number' });
-    }
-
-    if (!stock_quantity || isNaN(stock_quantity)) {
-      return res.status(400).json({ error: 'Stock quantity is required and must be a number' });
-    }
-
-    if (category_id === null) {
-      return res.status(400).json({ error: 'Category is required' });
-    }
-
-    let image = null;
-    if (req.file) {
-      image = await resizeImage(req, res);
-    }
-
+    
+    const image =  req.file.filename ; 
+   
     const newProduct = await prisma.products.create({
       data: {
         name: name,
         description: description,
         price: parseFloat(price),
         stock_quantity: parseInt(stock_quantity),
-        Category_id: parseInt(category_id), 
+        Category_id: parseInt(Category_id), 
         image: image
       }
     });
@@ -119,15 +106,37 @@ exports.create = async (req, res) => {
     res.status(500).json({ error: 'Server Error: Failed to create product' });
   }
 };
+
 exports.update = async (req, res) => {
   try {
-    let image = null;
-    if (req.file) {
-      image = await resizeImage(req, res);
-    }
+    let image = null; // กำหนดค่าเริ่มต้นของ image เป็น null
 
     const productId = parseInt(req.params.id);
     const { name, description, price, stock_quantity, category_id } = req.body;
+
+    // Validate data
+    if (!name || !description || !price || isNaN(price) || !stock_quantity || isNaN(stock_quantity) || category_id === null) {
+      return res.status(400).json({ error: 'Invalid data provided' });
+    }
+
+    // Retrieve the existing product
+    const existingProduct = await prisma.products.findUnique({
+      where: { product_id: productId }
+    });
+
+    if (!existingProduct) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    if (req.file) { // ตรวจสอบว่ามีการอัพโหลดรูปภาพใหม่หรือไม่
+      image = req.file.filename; // กำหนดค่าของ image เป็นชื่อไฟล์ของรูปภาพใหม่
+      
+      // ลบไฟล์รูปภาพเดิมออกจากไดเรกทอรี uploads
+      if (existingProduct.image) {
+        fs.unlinkSync(`uploads/${existingProduct.image}`);
+      }
+    }
+
     const updatedProduct = await prisma.products.update({
       where: { product_id: productId },
       data: {
@@ -135,8 +144,10 @@ exports.update = async (req, res) => {
         description,
         price: parseFloat(price),
         stock_quantity: parseInt(stock_quantity),
-        image, // ส่งตัวแปร image ที่ได้จากการ resizeImage
-        Category_id: parseInt(category_id)
+        image: image || existingProduct.image, 
+        Category: {
+          connect: { category_id: parseInt(category_id) }
+        }
       },
     });
 
@@ -148,7 +159,6 @@ exports.update = async (req, res) => {
     await prisma.$disconnect();
   }
 };
-
 exports.remove = async (req, res, next) => {
   try {
     const productId = parseInt(req.params.id);
