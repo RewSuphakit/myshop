@@ -6,15 +6,13 @@ import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import UserProduct from "../pages/users/UserProduct";
-
+import UserProfile from "../pages/users/UserProfile";
 import AdminPage from "../pages/admin/AdminPage";
 import AddProductForm from "../pages/admin/addProductForm"
 import  Navbar from '../pages/admin/Navbar'
 import Dashboard from '../pages/admin/Dashboard'
 import ListProduct from '../pages/admin/listProduct'
 import EditProduct from '../pages/admin/editProduct'
-
-import UserProfile from "../pages/users/UserProfile";
 import NotFound from "../components/NotFound";
 import HomePage from "../pages/HomePage";
 import ProductDetails from "../layouts/ProductDetails";
@@ -24,6 +22,7 @@ import Contact from "../pages/contact";
 import Address from '../pages/users/address'
 import OrderStatus from '../pages/users/orderStatus'
 import OrderHistory from '../pages/users/orderHistory'
+import PaymentSuccess from '../components/paymentSuccess'
 // สร้าง Router สำหรับผู้ใช้ที่ยังไม่ได้เข้าสู่ระบบ
 const guestRouter = createBrowserRouter([
   {
@@ -71,7 +70,7 @@ const userRouter = createBrowserRouter([
       { path: "/Profile/orderStatus", element: <OrderStatus /> }, 
       { path: "/Profile/orderHistory", element: <OrderHistory /> }, 
       { path: "/CheckOut", element: <CheckOut /> },
-      { path: "/CheckOut/paymentSuccess", element: <CheckOut /> },
+      { path: "/CheckOut/paymentSuccess", element: <PaymentSuccess /> },
       { path: "*", element: <NotFound /> },
       { path: "/Contact", element: <Contact /> }
     ]

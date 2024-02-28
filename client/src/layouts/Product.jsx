@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import ProductNew from "./productNew";
-
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);

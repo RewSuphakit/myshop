@@ -12,7 +12,7 @@ const ProductDetails = ({ userId }) => {
     const [cartItems, setCartItems] = useState([]);
     const [quantity, setQuantity] = useState(1); // จำนวนสินค้า
     const { id } = useParams();
-    const { user } = useAuth();
+    const { user,fetchCartInfo } = useAuth();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -38,7 +38,6 @@ const ProductDetails = ({ userId }) => {
                 toast.error('ไม่สามารถเพิ่มมากกว่าสต็อกที่มีอยู่ กรุณาปรับปริมาณ');
                 return;
             }
-
             const cartData = {
                 userId: user.user_id,
                 productId: product.product_id,
@@ -49,13 +48,14 @@ const ProductDetails = ({ userId }) => {
             const response = await axios.post(`${apiUrl}/api/cart`, cartData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json', // ระบุ Content-Type เป็น JSON
+                    'Content-Type': 'application/json', 
                 },
             });
-
-            // ตรวจสอบว่าเพิ่มสินค้าเข้าตะกร้าสำเร็จหรือไม่
+            fetchCartInfo();
             if (response.status === 200) {
-                toast.success('เพิ่มสินค้าไปยังตะกร้าสินค้าแล้ว!');
+                toast.success('เพิ่มสินค้าไปยังตะกร้าสินค้าแล้ว!',{
+                    position: "top-center"
+                });
             } else {
                 console.error('Failed to add product to cart:', response.data);
                 alert('Failed to add product to cart. Please try again later.');

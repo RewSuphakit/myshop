@@ -16,7 +16,7 @@ const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user,setCartItems1} = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [isChecked, setIsChecked] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -117,8 +117,11 @@ const Checkout = () => {
         }
       );
       setCartItems([]);
-      toast.success('ชำระเงินนสำเร็จ')
-      navigate("/checkout/confirmation");
+      setCartItems1([]);
+      toast.success('ชำระเงินนสำเร็จ',{
+        position:"top-center",
+      });
+      navigate("/CheckOut/paymentSuccess");
     } catch (error) {
       console.error("Failed to place order:", error);
       setError("Failed to place order. Please try again later.");

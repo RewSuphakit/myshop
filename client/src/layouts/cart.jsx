@@ -10,7 +10,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
+  const { user,fetchCartInfo,setCartItems1} = useAuth();
   const { id } = useParams();
 
   useEffect(() => {
@@ -30,6 +30,7 @@ const Cart = () => {
 
     if (id) {
       fetchCartItems();
+      fetchCartInfo();
     }
   }, [id]);
   const handleQuantityChange = async (cartItemId, newQuantity, availableStock) => {
@@ -48,13 +49,14 @@ const Cart = () => {
         if (item.cart_item_id === cartItemId) {
           return { ...item, quantity: newQuantity };
         }
+
         return item;
       });
   
       // อัปเดต cartItems ก่อน
       setCartItems(updatedCartItems);
-  
       // เพิ่ม delay ก่อนทำการเรียกใช้ axios.put
+      setCartItems1(updatedCartItems)
       setTimeout(async () => {
         await axios.put(
           `${apiUrl}/api/cart/${cartItemId}`,
@@ -65,7 +67,8 @@ const Cart = () => {
             headers: { Authorization: `Bearer ${token}` }
           }
         );
-      }, 1000); // ปรับเวลา delay ตามที่ต้องการ
+      }, 1000);
+ 
     } catch (error) {
       console.error("Failed to update quantity:", error);
       setError("Failed to update quantity. Please try again later.");
@@ -86,7 +89,9 @@ const Cart = () => {
         const newRes = await axios.get(`${apiUrl}/api/cart/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
+        fetchCartInfo();
         setCartItems(newRes.data.cartItems);
+        
       } else {
         console.error("Failed to remove item from cart:", res.data.error);
         setError("Failed to remove item from cart. Please try again later.");
@@ -109,6 +114,7 @@ const Cart = () => {
       (total, currentItem) => total + currentItem.quantity,
       0
     );
+    
   };
 
   const numberWithCommas = (number) => {

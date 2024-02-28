@@ -24,6 +24,13 @@ exports.list = async (req, res, next) => {
           created_at: 'desc' 
         }
       };
+    } else {
+      query = {
+        ...query,
+        orderBy: {
+          created_at: 'asc'
+        }
+      };
     }
 
     if (req.query.category) {
@@ -53,7 +60,6 @@ exports.list = async (req, res, next) => {
     await prisma.$disconnect();
   }
 };
-
 exports.read = async (req, res, next) => {
   try {
     const productId = parseInt(req.params.id);
@@ -142,6 +148,7 @@ exports.update = async (req, res) => {
       data: {
         name,
         description,
+        updated_at: new date(),
         price: parseFloat(price),
         stock_quantity: parseInt(stock_quantity),
         image: image || existingProduct.image, 
@@ -162,11 +169,17 @@ exports.update = async (req, res) => {
 exports.remove = async (req, res, next) => {
   try {
     const productId = parseInt(req.params.id);
+    const product = await prisma.products.findUnique({
+      where: { product_id: productId },
+      select: { image: true } 
+    });
     await prisma.products.delete({
       where: { product_id: productId },
     });
-
-    res.send(`Product with ID ${productId} has been deleted`);
+    if (product && product.image) {
+      fs.unlinkSync(`uploads/${product.image}`);
+    }
+    res.status(204).send(`Product with ID ${productId} has been deleted`);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');

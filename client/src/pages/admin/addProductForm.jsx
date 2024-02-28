@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
 import { toast } from 'react-toastify';
-
+import { IoAddOutline } from "react-icons/io5";
+import AddCategory from './addCategory';
 function AddProductForm() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -88,13 +89,14 @@ function AddProductForm() {
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="card lg:card-side bg-base-100 shadow-xl mt-4">
         <div className="card-body">
-        <div className="flex  justify-between">
+        <div className="flex justify-between">
          <div><h3 className="text-[30px] font-bold">Add Product</h3></div>
          <div className="text-2xl">{thaiDateString}</div>
           <div>
-            <button className="btn btn-primary" type="submit">
-              Add Product
-            </button></div>   
+            <button className="btn btn-square btn-outline" type="submit">
+            <IoAddOutline  size={30}/>
+            </button>
+            </div>   
           </div>
         
          
@@ -138,7 +140,7 @@ function AddProductForm() {
           <div className="col-span-1">
             <div className="card lg:card-side bg-base-100 shadow-xl mt-4">
               <div className="card-body">
-                <h2>Product Media</h2>
+                <h2 className="text-xl font-semibold mb-4">Product Media</h2>
                <label
                
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -214,7 +216,7 @@ function AddProductForm() {
               <div className="flex justify-between mb-4">
               <div> <h2 className="text-xl font-semibold mb-4">Category</h2></div>
               <div></div>
-              <div></div>
+              <div><AddCategory /></div>
               </div >
     
               <select

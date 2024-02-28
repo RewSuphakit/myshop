@@ -4,13 +4,10 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../models/db');
 
 exports.register = async (req, res ) => {
-  const { first_name, last_name, email, password, confirmPassword, role } = req.body;
+  const { first_name, last_name, email, password, confirmPassword } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Validation
-    if (!(email && password && confirmPassword)) {
-      return res.status(400).json({ error: 'Fulfill all inputs' });
+    if (!email || !password || !confirmPassword) {
+      return res.status(400).json({ error: 'Please fill in all required fields' });
     }
 
     if (confirmPassword !== password) {
@@ -22,13 +19,14 @@ exports.register = async (req, res ) => {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = await prisma.users.create({
       data: {
         first_name,
         last_name,
         email,
-        password: hashedPassword,
-        role,
+        password: hashedPassword
       },
     });
 
@@ -37,39 +35,49 @@ exports.register = async (req, res ) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
+    // ตรวจสอบว่าอีเมลและรหัสผ่านไม่ว่างเปล่า
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
     const user = await prisma.users.findUnique({ where: { email } });
 
+    // ตรวจสอบว่ามีผู้ใช้ในระบบหรือไม่
     if (!user) {
       console.log("User not found");
       return res.status(401).json({ error: 'User not found' });
     }
 
+    // ตรวจสอบความถูกต้องของรหัสผ่าน
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       console.log("Invalid password");
       return res.status(401).json({ error: 'Invalid password' });
     }
 
+    // สร้าง JWT token
     const payload = {
       user: {
         email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
         role: user.role
       }
     };
-
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+    // ส่งคำตอบกลับไปพร้อมกับ token และข้อมูลผู้ใช้ (ไม่รวมรหัสผ่าน)
     const userWithoutPassword = { ...user, password: undefined };
-    res.status(200).json({ message: 'Login successful', token, user: userWithoutPassword, payload });
+    res.status(200).json({ message: 'Login successful', token, payload: userWithoutPassword });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 exports.CountUsers = async (req, res) => {
   try {
     const count = await prisma.users.count({

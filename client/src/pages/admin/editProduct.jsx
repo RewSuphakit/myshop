@@ -83,7 +83,9 @@ function EditProduct() {
       console.error("Error updating product:", error);
     }
   };
-
+  const handleCancel = () =>{
+    navigate('/listProduct');
+  }
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -92,7 +94,8 @@ function EditProduct() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-4">
+        <h1 className="text-2xl font-bold mb-4">Edit Product</h1>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
             Name
@@ -147,7 +150,7 @@ function EditProduct() {
             onChange={(e) => setStockQuantity(e.target.value)}
           />
         </div>
-        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 ">
           {previewImage ? (
             <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover" />
           ) : (
@@ -171,34 +174,36 @@ function EditProduct() {
             </div>
           )}
         </div>
-
+        <div className="mb-4 mt-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="stock_quantity">
+            Stock Quantity
+          </label>
         <select
           id="category"
-          className="border rounded-md py-1 px-2"
+          className="border rounded-md py-1 px-2  "
           required
           value={categoryId}
           onChange={handleCategoryChange} 
         >
-          <option key="" value="">Select Category</option>
           {categories.map(category =>
             <option key={category.category_id} value={category.category_id}>
               {category.name}
             </option>
           )}
         </select>
-
+     </div>
         <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Save
-          </button>
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          <button  onClick={handleCancel}
+            className="btn btn-error"
             type="button"
           >
             Cancel
+          </button>
+          <button
+            className="btn btn-success"
+            type="submit"
+          >
+            Save
           </button>
         </div>
       </div>

@@ -19,7 +19,7 @@ const Carousel = () => {
     },
     { 
       name: 'Product 4',
-      image: 'https://investor.bigcamera.co.th/media/wysiwyg/news/2023/big-camera-festival/big-camera-festival-2023-banner1.jpg'
+      image: 'https://www.zoomcamera.net/wp-content/uploads/2022/12/%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%82%E0%B8%A1%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B8%87-%E0%B9%80%E0%B8%A5%E0%B8%99%E0%B8%AA%E0%B9%8C-%E0%B8%AD%E0%B8%B8%E0%B8%9B%E0%B8%81%E0%B8%A3%E0%B8%93%E0%B9%8C%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2%E0%B8%A0%E0%B8%B2%E0%B8%9E-%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2%E0%B8%A7%E0%B8%B5%E0%B8%94%E0%B8%B5%E0%B9%82%E0%B8%AD-ZoomCamera-1450x330-1.jpg'
     },
     { 
       name: 'Product 5',

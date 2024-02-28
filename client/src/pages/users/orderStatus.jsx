@@ -68,11 +68,13 @@ function OrderStatus() {
   };
   return (
     <div className="container mx-auto">
-      <h1 className="text-2xl font-bold mb-4">รายละเอียดสินค้าและสถานะ</h1>
-      <div className="overflow-y-auto max-h-[600px]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
-          {orders &&
-            orders.map((order) => (
+  <h1 className="text-2xl font-bold mb-4">รายละเอียดสินค้าและสถานะ</h1>
+  <div className="overflow-y-auto max-h-[600px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
+      {orders &&
+        orders.map((order) => {
+          if (order.status === 'pending' || order.status === 'Delivered') {
+            return (
               <div
                 key={order.order_id}
                 className="bg-white rounded-lg shadow-md p-4"
@@ -140,34 +142,32 @@ function OrderStatus() {
                     </div>
                   ))}
 
-{order.status === 'Cancelled' && (
-  <div>
+                {order.status === 'pending' && (
+                  <button 
+                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mt-4"
+                    onClick={() => handleOrderStatusChange(order.order_id, 'Cancelled')}
+                  >
+                    Cancel
+                  </button>
+                )}
 
-  </div>
-)}
-
-{order.status === 'pending' && (
-    <button 
-        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mt-4"
-        onClick={() => handleOrderStatusChange(order.order_id, 'Cancelled')}
-    >
-        Cancel
-    </button>
-)}
-
-{order.status === 'Delivered' && (
-    <button 
-        className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4"
-        onClick={() => handleOrderStatusChange(order.order_id, 'Succeed')}
-    >
-        Received
-    </button>
-)}
+                {order.status === 'Delivered' && (
+                  <button 
+                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4"
+                    onClick={() => handleOrderStatusChange(order.order_id, 'Succeed')}
+                  >
+                    Received
+                  </button>
+                )}
               </div>
-            ))}
-        </div>
-      </div>
+            );
+          } else {
+            return null; // Return null for orders that don't match the criteria
+          }
+        })}
     </div>
+  </div>
+</div>
   );
 }
 

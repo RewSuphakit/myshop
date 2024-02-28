@@ -1,6 +1,6 @@
 import React from 'react'
 
-function addCategory() {
+function AddCategory() {
   return (
     <>
     <button className="btn" onClick={()=>document.getElementById('my_modal_4').showModal()}>Add Category</button>
@@ -10,7 +10,7 @@ function addCategory() {
         <p className="py-4">เวลาไม่พอ </p>
         <div className="modal-action">
           <form method="dialog">
-            {/* if there is a button, it will close the modal */}
+            <div></div>
             <button className="btn">Close</button>
           </form>
         </div>
@@ -20,4 +20,4 @@ function addCategory() {
   )
 }
 
-export default addCategory
+export default AddCategory

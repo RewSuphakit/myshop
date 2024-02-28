@@ -34,10 +34,10 @@ function Reviews() {
   const handleAddComment = async () => {
     try {
       if(newComment===''){
-        toast.error('โปรดเขียนคอมเม้นก่อนกดเพิ่มครับ')
+        toast.error("Comment can't be empty")
         return newComment
       }
-  
+
       const commentData = {
         productId: id,
         userId: user.user_id,
@@ -70,7 +70,30 @@ function Reviews() {
     }
   };
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      let token = localStorage.getItem('token');
+      const response = await axios.delete(`${apiUrl}/api/reviews/${reviewId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      if (response.status === 204) {
+        toast.success('Review deleted successfully!',{
+          position: "top-center"
+        });
 
+        setReviews(reviews.filter(review => review.review_id !== reviewId));
+      } else {
+        console.error('Failed to delete review:', response.data);
+        toast.error('Failed to delete review. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      toast.error('Error deleting review. Please try again later.',{
+        position: "top-center"
+      });
+    }
+  };
   const handleRatingChange = (value) => {
     setRating(value);
   };

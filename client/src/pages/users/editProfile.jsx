@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { FaUserEdit } from "react-icons/fa";
 function EditProfile() {
   const { id } = useParams();
-  const { user } = useAuth(); 
+  const { user,run } = useAuth(); 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [showModal, setShowModal] = useState(false); 
@@ -35,9 +35,7 @@ function EditProfile() {
       );
       setShowModal(false);
       toast.success('Profile updated successfully!', { position: "top-center" });
-      setTimeout(() => {
-        window.location.reload();
-      }, 5000); 
+      run();
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error('Error updating profile', { position: "top-center" });

@@ -19,7 +19,7 @@ const ProductNew = () => {
         const productsWithRecentBadge = filteredProducts.map(product => ({
           ...product,
           isRecent: 
-            new Date(product.created_at) > new Date(new Date().setDate(new Date().getDate() - 7)) 
+            new Date(product.created_at) > new Date(new Date().setDate(new Date().getDate() - 1)) 
         }));
         setProducts(productsWithRecentBadge);
       } catch (error) {

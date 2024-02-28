@@ -9,54 +9,80 @@ import { MdLogin } from "react-icons/md";
 export default function LoginForm() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [input, setInput] = useState({
     email: "",
     password: ""
   });
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   const hdlChange = e => {
     setInput(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+ 
   const hdlSubmit = async e => {
     try {
       e.preventDefault();
-  
-      const rs = await axios.post(`${apiUrl}/auth/login`, input);
-      localStorage.setItem("token", rs.data.token);
-  
-      const rs1 = await axios.get(`${apiUrl}/auth/profile`, {
-        headers: { Authorization: `Bearer ${rs.data.token}` }
+      const response = await axios.post(`${apiUrl}/auth/login`, {
+        email: input.email,
+        password: input.password
       });
-      setUser(rs1.data);
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successful!',
-        text: `Welcome ${rs1.data.email}`,
-        confirmButtonText: 'OK'
-      });
-      navigate('/');
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
+  
+      if (response.status === 200 || response.status === 201) {
+        const { token, payload } = response.data;
+        localStorage.setItem("token", token);
+        setUser(payload);
+  
         Swal.fire({
-          icon: 'error',
-          title: 'Unauthorized',
-          text: 'Invalid email or password. Please try again.',
+          icon: 'success',
+          title: 'Login Successful!',
+          text: `Welcome ${payload.email}`,
           confirmButtonText: 'OK'
         });
+  
+        navigate('/');
+      } else {
+        throw new Error("Failed to log in. Please try again.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        const errorMessage = error.response.data.error;
+        if (errorMessage === 'User not found') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Invalid username.',
+            confirmButtonText: 'OK'
+          });
+        } else if (errorMessage === 'Invalid password') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Invalid password.',
+            confirmButtonText: 'OK'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Failed to log in. Please try again later.',
+            confirmButtonText: 'OK'
+          });
+        }
       } else {
         Swal.fire({
           icon: 'error',
-          title: 'Error',
-          text: err.response?.data.message || "Something went wrong!",
+          title: 'Login Failed',
+          text: 'Failed to log in. Please try again later.',
           confirmButtonText: 'OK'
         });
       }
     }
   };
-
   return (
     <>
       <div className=" text-gray-900 flex justify-center mb-4">
@@ -80,7 +106,7 @@ export default function LoginForm() {
                     />
                     <input
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Password"
                       required
                       name="password"
@@ -88,6 +114,19 @@ export default function LoginForm() {
                       onChange={hdlChange}
                       autoComplete="current-password"
                     />
+                    <div className="flex justify-between mt-2">
+                      <div>
+                     <input
+                        type="checkbox"
+                        className="mr-2 "
+                        onChange={togglePasswordVisibility}
+                      />
+                    <label className="text-sm font-medium">Show Password</label>
+                    </div>
+                    <div>
+                    <label className="text-sm font-medium"><a className="link link-hover">Forgot your password?</a></label>
+                    </div>
+                      </div>
                     <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                    <MdLogin  size={20} onClick={hdlSubmit}/>
                       <span className="ml-3">Sign in</span>

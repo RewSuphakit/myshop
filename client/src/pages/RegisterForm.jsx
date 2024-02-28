@@ -19,23 +19,21 @@ export default function RegisterForm() {
   const hdlChange = e => {
     setInput(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
-
+  
   const hdlSubmit = async e => {
     try {
       e.preventDefault();
-      // validation
       if (input.password !== input.confirmPassword) {
-        return alert("Please check confirm password");
+        return toast.warn("Please check confirm password");
       }
       const rs = await axios.post(`${apiUrl}/auth/register`, input);
       if (rs.status === 200) {
         toast.success("Register Successful");
         navigate("/Login")
-        // Clear the form
-        setInput(initialState);
+        setInput(initialState); 
       }
-    } catch (err) {
-      toast.error("มีอีเมลซ้ำ");
+    } catch (error) {
+      toast.error("มีผู้ใช้อีเมลนี้อยู่แล้ว");
     }
   };
 
