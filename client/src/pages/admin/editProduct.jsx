@@ -76,7 +76,7 @@ function EditProduct() {
       await axios.put(`${apiUrl}/api/products/${id}`,formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      navigate('/listProduct')
+      navigate('/MyShops/listProduct')
       toast.success('Product updated successfully!');
       fetchProduct();
     } catch (error) {
@@ -84,7 +84,7 @@ function EditProduct() {
     }
   };
   const handleCancel = () =>{
-    navigate('/listProduct');
+    navigate('/MyShops/listProduct');
   }
   const handleImageChange = (e) => {
     const file = e.target.files[0];

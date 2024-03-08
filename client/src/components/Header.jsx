@@ -32,7 +32,8 @@ const Header = () => {
           text: "ขอคุณที่ใช่บริการ.",
           icon: "success"
         }).then(() => {
-          logout(); // ทำการ logout หลังจากกดยืนยัน
+          logout();
+          navigate('/MyShops/');  // ทำการ logout หลังจากกดยืนยัน
         });
       }
     });
@@ -42,10 +43,10 @@ const Header = () => {
   const finalNav = user?.user_id && (
     <>
       <li className=" text-xl font-bold  pb-2">
-        <Link to="/Profile"><CgProfile />โปรฟาย</Link>
+        <Link to="/MyShops/Profile"><CgProfile />โปรฟาย</Link>
       </li>
       <li className=" text-xl font-bold  pb-2">
-        <Link to="/Profile/OrderHistory"><MdHistory />ประวัตการสั่งซื้อ</Link>
+        <Link to="/MyShops/Profile/OrderHistory"><MdHistory />ประวัตการสั่งซื้อ</Link>
       </li>
       <div className="divider"></div>
       <li className=" text-xl font-bold pb-2">
@@ -65,18 +66,18 @@ const Header = () => {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </div>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ">
-              <li>  <Link to="/">Home</Link></li>
-              <li><Link to="/Contact">Contact</Link></li>
-              <li><Link to="/about">about</Link></li>
+              <li>  <Link to="/MyShops/">Home</Link></li>
+              <li><Link to="/MyShops/Contact">Contact</Link></li>
+              <li><Link to="/MyShops/about">about</Link></li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">{user?.user_id ? [user.first_name, ' ', user.last_name] : 'Guest'}</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 z-10">
-            <li>  <Link to="/">Home</Link></li>
-            <li><Link to="/Contact">Contact</Link></li>
-            <li><Link to="/about">about</Link></li>
+            <li>  <Link to="/MyShops/">Home</Link></li>
+            <li><Link to="/MyShops/Contact">Contact</Link></li>
+            <li><Link to="/MyShops/about">about</Link></li>
           </ul>
         </div>
         <div className="navbar-end">
@@ -92,14 +93,14 @@ const Header = () => {
                 <span className="font-bold text-lg">{countTotalItems()} Items</span>
                 <span className="text-info">Subtotal: ${calculateTotalPrice()}</span>
                 <div className="card-actions">
-              
+                {user?.user_id && (
                     <Link  className="btn btn-primary btn-block"
-                      to={`/cart/${user?.user_id}`}
+                      to={`/MyShops/cart/${user?.user_id}`}
                       key={user?.user_id}
                     >
                       View cart
                     </Link>
-                 
+                     )}
                 </div>
               </div>
             </div>
@@ -119,8 +120,8 @@ const Header = () => {
             )}
             {!user?.user_id && (
               <div className="flex">
-                <div ><Link to="/login" className="btn btn-ghost">Login</Link></div>
-                <div ><Link to="/register" className="btn btn-ghost">Register</Link></div>
+                <div ><Link to="/MyShops/login" className="btn btn-ghost">Login</Link></div>
+                <div ><Link to="/MyShops/register" className="btn btn-ghost">Register</Link></div>
               </div>
             )}
           </div>

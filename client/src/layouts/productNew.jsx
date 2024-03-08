@@ -5,10 +5,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
-const ProductNew = () => {
+const ProductNew = ({ limit }) => {
   const [products, setProducts] = useState([]);
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+  const { user } = useAuth();
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -21,13 +24,13 @@ const ProductNew = () => {
           isRecent: 
             new Date(product.created_at) > new Date(new Date().setDate(new Date().getDate() - 1)) 
         }));
-        setProducts(productsWithRecentBadge);
+        setProducts(productsWithRecentBadge.slice(0, limit)); // Limit the number of products
       } catch (error) {
         console.error("Error fetching fetchProducts:", error.message);
       }
     };
     fetchProducts();
-  }, []);
+  }, [limit]);
 
   const sliderRef = useRef();
   const settings = {
@@ -83,9 +86,15 @@ const ProductNew = () => {
           <Slider ref={sliderRef} {...settings}>
             {products.map((product) => (
               <Link
-                to={`/ProductDetails/${product.product_id}`}
-                key={product.product_id}
-              >
+              to={
+                product.stock_quantity > 0 && user?.user_id 
+                  ? `/MyShops/ProductDetails/${product.product_id}`
+                  : "/MyShops/login"
+              }
+              key={product.product_id}
+              className="hover:shadow-lg transition duration-300 ease-in-out"
+            >
+    
                 <div className=" bg-white p-4 m-2 max-w-xs shadow-md rounded-md">
                   
                   {product.image ? (
@@ -112,7 +121,6 @@ const ProductNew = () => {
                   <h2 className="text-lg font-semibold mb-2 truncate">{product.name}</h2>
                   <p className="mb-4 text-gray-600">{product.Category.name}</p>
                   <p className="text-gray-600">ราคา: {product.price} บาท</p>
-                  {/* เพิ่ม Badge สินค้าใหม่ */}
                   {product.isRecent && (
                     <span className="bg-blue-500 text-white px-2 py-1 rounded-md text-xs absolute top-2 right-2">NEW</span>
                   )}

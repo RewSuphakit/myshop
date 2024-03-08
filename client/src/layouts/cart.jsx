@@ -5,6 +5,7 @@ import { useParams, useNavigate ,Link} from "react-router-dom";
 import { toast } from 'react-toastify';
 
 const Cart = () => {
+  
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -149,7 +150,7 @@ const handleCheckOut = async () => {
   if (!isProductAvailable) {
     return;
   }
-  navigate("/checkout");
+  navigate("/MyShops/checkout");
 };
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -247,7 +248,7 @@ const handleCheckOut = async () => {
                   &nbsp;
                 </div>
               ))}
-              <Link to="/" className="link ">กลับไปเลือกซื้อสินค้า</Link>
+              <Link to="/MyShops/" className="link ">กลับไปเลือกซื้อสินค้า</Link>
                
             </div>
              </>

@@ -11,7 +11,7 @@ function PaymentSuccess() {
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Payment Success</h2>
         <p className="text-lg text-gray-700 mb-4">Your payment has been successfully processed.</p>
         <p className="text-lg text-gray-700 mb-4">Thank you for your purchase!</p>
-        <Link to="/" className="text-blue-500 hover:underline">Back to Home</Link>
+        <Link to="/MyShops/" className="text-blue-500 hover:underline">Back to Home</Link>
       </div>
     </div>
   );

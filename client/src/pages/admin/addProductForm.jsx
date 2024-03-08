@@ -93,8 +93,9 @@ function AddProductForm() {
          <div><h3 className="text-[30px] font-bold">Add Product</h3></div>
          <div className="text-2xl">{thaiDateString}</div>
           <div>
+            กดปุ่มนี่เพื่อเพิ่มสินค้า
             <button className="btn btn-square btn-outline" type="submit">
-            <IoAddOutline  size={30}/>
+            <IoAddOutline  size={30}/>  
             </button>
             </div>   
           </div>
@@ -215,8 +216,7 @@ function AddProductForm() {
             <div className="card bg-base-100 shadow-xl mt-4 p-4">
               <div className="flex justify-between mb-4">
               <div> <h2 className="text-xl font-semibold mb-4">Category</h2></div>
-              <div></div>
-              <div><AddCategory /></div>
+            
               </div >
     
               <select

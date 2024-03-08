@@ -2,13 +2,14 @@ const db = require("../models/db");
 exports.getAddress = async (req, res, next) => {
     try {
         const addresses = await db.address.findMany({
-            where: { user_id: req.user.user_id }
+            where: { user_id: req.user.user_id },
+            include: {
+              orderItems: true 
+            }
+            
         });
-       
-        // ถ้าพบที่อยู่ ส่งข้อมูลกลับไปยังผู้ใช้
         res.send({ addresses });
     } catch (error) {
-        // การจัดการข้อผิดพลาดเมื่อเกิดข้อผิดพลาดในการดึงข้อมูล
         next(error);
     }
 }

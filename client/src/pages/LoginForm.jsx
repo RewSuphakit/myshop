@@ -44,7 +44,7 @@ export default function LoginForm() {
           confirmButtonText: 'OK'
         });
   
-        navigate('/');
+        navigate('/MyShops/');
       } else {
         throw new Error("Failed to log in. Please try again.");
       }

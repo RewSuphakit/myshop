@@ -61,6 +61,7 @@ const Address = () => {
         setPhone('');
         setShowModal(false);
         toast.success('Address added successfully!');
+        fetchAddress();
       } else {
         console.error("Error adding address: ", res.data.message);
         alert("Failed to add address. Please try again later.");
@@ -101,35 +102,39 @@ const Address = () => {
       <h2 className="text-xl font-bold mb-4">เพิ่มที่อยู่</h2>
       <div className="overflow-y-auto max-h-[400px]">
   <div className="grid grid-cols-1   sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  lg:w-[100rem] gap-4">
-    {addresses && addresses.map((address) => (
-      <div key={address.address_id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg  ml-2 my-4 overflow-y-auto ">
-        <div className="mb-4">
-          <strong>ชื่อผู้รับ:</strong> {address.recipient_name}
-        </div>
-        <div className="mb-4">
-          <strong>ที่อยู่ 1:</strong> {address.address_line1}
-        </div>
-        <div className="mb-4">
-          <strong>ที่อยู่ 2:</strong> {address.address_line2}
-        </div>
-        <div className="mb-4">
-          <strong>เมือง:</strong> {address.city}
-        </div>
-        <div className="mb-4">
-          <strong>อำเภอ:</strong> {address.state}
-        </div>
-        <div className="mb-4">
-          <strong>รหัสไปรษณีย์:</strong> {address.postal_code}
-        </div>
-        <div className="mb-4">
-          <strong>เบอร์โทร:</strong> {address.phone}
-        </div>
-        <div className="flex justify-end">
-        <button className="btn bg-red-200 hover:bg-red-400" onClick={() => handleDeleteAddress(address.address_id )}><MdDeleteOutline  size={20}/></button>
-          <EditAddress addresses={address} fetchAddress={fetchAddress} />
-        </div>
-      </div>
-    ))}
+  {addresses && addresses.map((address) => (
+  <div key={address.address_id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg  ml-2 my-4 overflow-y-auto ">
+    <div className="mb-1">
+      <strong>ชื่อผู้รับ:</strong> {address.recipient_name}
+    </div>
+    <div className="mb-1">
+      <strong>ที่อยู่ 1:</strong> {address.address_line1}
+    </div>
+    <div className="mb-1">
+      <strong>ที่อยู่ 2:</strong> {address.address_line2}
+    </div>
+    <div className="mb-1">
+      <strong>อำเภอ:</strong> {address.state}
+    </div>
+    <div className="mb-1">
+      <strong>เมือง:</strong> {address.city}
+    </div>
+    <div className="mb-1">
+      <strong>รหัสไปรษณีย์:</strong> {address.postal_code}
+    </div>
+    <div className="mb-1">
+      <strong>เบอร์โทร:</strong> {address.phone}
+    </div>
+    <div className="flex justify-end">
+      {address.OrderItems && address.OrderItems.length === 0 && (
+        <button className="btn bg-red-200 hover:bg-red-400" onClick={() => handleDeleteAddress(address.address_id)}>
+          <MdDeleteOutline size={20}/>
+        </button>
+      )}
+      <EditAddress addresses={address} fetchAddress={fetchAddress} />
+    </div>
+  </div>
+))}
   </div>
 </div>
       <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -143,30 +148,18 @@ const Address = () => {
       </div>
 
       {showModal && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
-            &#8203;
-            <div
-              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="modal-headline"
-            >
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-16 sm:pb-4 ">
-                <button
-                  onClick={handleCloseModal}
-                  className="absolute top-0 right-0 p-4 cursor-pointer"
-                >
-                  <AiOutlineClose />
-                </button>
-                <form onSubmit={handleFormSubmit} className="w-96 p-4">
-                  <h2 className="text-xl font-bold">กรอกที่อยู่</h2>
-                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                   
+        <dialog id="my_modal_4" className="modal" open>
+          <div className="modal-box w-11/12 max-w-5xl">
+  
+              <form method="dialog"className="p-4" onSubmit={handleFormSubmit}>
+              <button
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            onClick={() => setShowModal(false)}
+          >
+            ✕
+          </button>
+          <h3 className="font-bold text-lg">Add Address!</h3>
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label htmlFor="recipient_name" className="block text-sm font-medium leading-6 text-gray-900">
                 ชื่อผู้รับ
@@ -289,16 +282,15 @@ const Address = () => {
                 />
               </div>
               </div>
-              
-                  </div>
-                  <div className="mt-2 flex justify-end">
-                    <button type="submit" className="btn btn-primary">บันทึก</button>
-                  </div>
-                </form>
               </div>
-            </div>
+              <div className="relative h-20">
+              <button type="submit " className="btn  absolute bottom-0 right-0  " >
+                ตกลง
+              </button>
+              </div>
+              </form>
           </div>
-        </div>
+        </dialog>
       )}
     </div>
   );

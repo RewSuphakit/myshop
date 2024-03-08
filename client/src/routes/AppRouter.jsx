@@ -1,5 +1,5 @@
-// app Router.jsx
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import React from 'react'; // นำเข้า React
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"; // นำเข้า createBrowserRouter, RouterProvider, และ Outlet
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
 import useAuth from "../hooks/useAuth";
@@ -18,7 +18,8 @@ import HomePage from "../pages/HomePage";
 import ProductDetails from "../layouts/ProductDetails";
 import Cart from "../layouts/cart";
 import CheckOut from "../layouts/CheckOut";
-import Contact from "../pages/contact";
+import Contact from "../components/contact";
+import About from "../components/About";
 import Address from '../pages/users/address'
 import OrderStatus from '../pages/users/orderStatus'
 import OrderHistory from '../pages/users/orderHistory'
@@ -26,7 +27,7 @@ import PaymentSuccess from '../components/paymentSuccess'
 // สร้าง Router สำหรับผู้ใช้ที่ยังไม่ได้เข้าสู่ระบบ
 const guestRouter = createBrowserRouter([
   {
-    path: "/",
+    path: "/MyShops/",
     element: (
       <>
         <Header />
@@ -38,10 +39,11 @@ const guestRouter = createBrowserRouter([
       // หน้าหลัก
       { index: true, element: <HomePage /> },
       // หน้าเข้าสู่ระบบ
-      { path: "/login", element: <LoginForm /> },
+      { path: "/MyShops/login", element: <LoginForm /> },
       // หน้าลงทะเบียน
-      { path: "/register", element: <RegisterForm /> },
-      { path: "/Contact", element: <Contact /> },
+      { path: "/MyShops/register", element: <RegisterForm /> },
+      { path: "/MyShops/Contact", element: <Contact /> },
+      { path: "/MyShops/About", element: <About /> },
 
       // เพิ่มเส้นทางสำหรับ 404 Not Found
       { path: "*", element: <NotFound /> }
@@ -52,7 +54,7 @@ const guestRouter = createBrowserRouter([
 // สร้าง Router สำหรับผู้ใช้ที่เข้าสู่ระบบแล้ว
 const userRouter = createBrowserRouter([
   {
-    path: "/",
+    path: "/MyShops/",
     element: (
       <>
         <Header />
@@ -62,17 +64,19 @@ const userRouter = createBrowserRouter([
     ),
     children: [
       { index: true, element: <UserProduct /> },
-      { path: "/UserProduct", element: <UserProduct /> },
-      { path: "/ProductDetails/:id", element: <ProductDetails /> },
-      { path: "/Cart/:id", element: <Cart /> },
-      { path: "/Profile", element: <UserProfile /> },
-      { path: "/Profile/address", element: <Address /> },
-      { path: "/Profile/orderStatus", element: <OrderStatus /> }, 
-      { path: "/Profile/orderHistory", element: <OrderHistory /> }, 
-      { path: "/CheckOut", element: <CheckOut /> },
-      { path: "/CheckOut/paymentSuccess", element: <PaymentSuccess /> },
-      { path: "*", element: <NotFound /> },
-      { path: "/Contact", element: <Contact /> }
+      { path: "/MyShops/UserProduct", element: <UserProduct /> },
+      { path: "/MyShops/ProductDetails/:id", element: <ProductDetails /> },
+      { path: "/MyShops/Cart/:id", element: <Cart /> },
+      { path: "/MyShops/Profile", element: <UserProfile /> },
+      { path: "/MyShops/Profile/address", element: <Address /> },
+      { path: "/MyShops/Profile/orderStatus", element: <OrderStatus /> }, 
+      { path: "/MyShops/Profile/orderHistory", element: <OrderHistory /> }, 
+      { path: "/MyShops/CheckOut", element: <CheckOut /> },
+      { path: "/MyShops/CheckOut/paymentSuccess", element: <PaymentSuccess /> },
+      { path: "/MyShops/*", element: <NotFound /> },
+     { path: "/MyShops/Contact", element: <Contact /> },
+     { path: "/MyShops/About", element: <About /> },
+      
     ]
   }
 ]);
@@ -80,7 +84,7 @@ const userRouter = createBrowserRouter([
 // สร้าง Router สำหรับผู้ใช้ที่เป็น Admin
 const adminRouter = createBrowserRouter([
   {
-    path: "/",
+    path: "/MyShops/",
     element: (
       <>
         <Navbar/>
@@ -90,11 +94,12 @@ const adminRouter = createBrowserRouter([
     children: [
       // หน้าหลักสำหรับผู้ใช้ที่เป็น Admin
       { index: true, element: <Dashboard /> },
-      { path: "/AddProductForm", element: <AddProductForm/> },
-      { path: "/Dashboard", element: <Dashboard />},
-      { path: "/ListProduct", element: <ListProduct /> },
-      { path:"/EditProduct/:id",element :<EditProduct />},
-      { path: "*", element: <NotFound /> }
+      { path: "/MyShops/Dashboard", element: <Dashboard /> },
+      { path: "/MyShops/AddProductForm", element: <AddProductForm/> },
+      { path: "/MyShops/Dashboard", element: <Dashboard />},
+      { path: "/MyShops/ListProduct", element: <ListProduct /> },
+      { path:"/MyShops/EditProduct/:id",element :<EditProduct />},
+      { path: "/MyShops/*", element: <NotFound /> }
       // อื่น ๆ ที่เฉพาะสำหรับผู้ใช้ที่เป็น Admin
     ]
   }

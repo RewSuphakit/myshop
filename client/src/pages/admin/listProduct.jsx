@@ -51,7 +51,7 @@ function ListProduct() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleEditProduct = (productId) => {
-    navigate('/EditProduct/' + productId);
+    navigate('/MyShops/EditProduct/' + productId);
   };
 
   return (
@@ -66,9 +66,10 @@ function ListProduct() {
           <th className="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">Image</th>
           <th className="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">Name</th>
           <th className="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">Description</th>
+          <th className="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">Category</th>
           <th className="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">Price</th>
           <th className="px-4 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">Stock Quantity</th>
-          <th colspan="2"  className="px-4 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">action</th>
+          <th colSpan={2} className="px-4 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider sm:px-6">action</th>
         </tr>
       </thead>
       <tbody className="bg-white">
@@ -79,6 +80,7 @@ function ListProduct() {
             </td>
             <td className="px-4 py-4 whitespace-no-wrap text-sm leading-5 font-medium sm:px-6 sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg">{product.name}</td>
             <td className="px-4 py-4 whitespace-no-wrap text-sm leading-5 font-medium sm:px-6 sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg">{product.description}</td>
+            <td className="px-4 py-4 whitespace-no-wrap text-sm leading-5 font-medium">{product.Category.name}</td>
             <td className="px-4 py-4 whitespace-no-wrap text-sm leading-5 font-medium">{product.price}</td>
             <td className="px-4 py-4 whitespace-no-wrap text-center text-sm leading-5 font-medium">{product.stock_quantity}</td>
             <td className="px-4 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">

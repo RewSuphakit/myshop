@@ -29,7 +29,7 @@ export default function RegisterForm() {
       const rs = await axios.post(`${apiUrl}/auth/register`, input);
       if (rs.status === 200) {
         toast.success("Register Successful");
-        navigate("/Login")
+        navigate("/MyShops/Login")
         setInput(initialState); 
       }
     } catch (error) {

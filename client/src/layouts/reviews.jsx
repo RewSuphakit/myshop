@@ -12,7 +12,7 @@ function Reviews() {
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage] = useState(5); 
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  useEffect(() => {
+ 
     const fetchReviews = async () => {
       try {
         let token = localStorage.getItem('token');
@@ -24,8 +24,9 @@ function Reviews() {
         console.error('Error fetching reviews:', error);
       }
     };
+    useEffect(() => {
       fetchReviews();
-  }, [reviews.length]);
+  }, []);
 
   const addCommentToReviews = (newReview) => {
     setReviews([...reviews, newReview]);
@@ -55,7 +56,7 @@ function Reviews() {
           position: "top-center"
         });
         setNewComment('');
-
+        fetchReviews();
         const newReview = response.data.review;
         addCommentToReviews(newReview); 
       } else {
@@ -231,8 +232,14 @@ const submitEditedReview = async () => {
           </>
         ) : (
           <>
-            <button className="btn btn-primary" onClick={() => startEditReview(review.review_id, review.comment)}>Edit</button>
-            <button className="btn btn-danger" onClick={() => handleDeleteReview(review.review_id)}>Delete</button>
+          <div className="dropdown dropdown-bottom dropdown-end">
+  <div tabIndex={0} role="button" className="btn m-1">...</div>
+  <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+  <button className="btn btn-primary" onClick={() => startEditReview(review.review_id, review.comment)}>Edit</button>
+ <button className="btn btn-danger" onClick={() => handleDeleteReview(review.review_id)}>Delete</button>
+  </ul>
+</div>
+
           </>
         )
       )}

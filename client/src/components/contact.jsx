@@ -6,7 +6,7 @@ function Contact() {
       <div className="max-w-6xl mx-auto bg-white my-6 font-[sans-serif] text-[#011c2b]">
             <div className="text-center px-6">
                 <h2 className="text-3xl font-extrabold">Contact Us</h2>
-                <p className="text-sm text-gray-400 mt-3">Have some big idea or brand to develop and need help?</p>
+                <p className="text-sm text-gray-400 mt-3">หมายเหตุ ไม่สามารถใช่งานได้ตกแต่งเฉยๆ55555</p>
             </div>
             <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8">
                 <div className="bg-[#011c2b] rounded-lg p-6 max-lg:text-center">

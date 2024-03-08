@@ -121,7 +121,7 @@ const Checkout = () => {
       toast.success('ชำระเงินนสำเร็จ',{
         position:"top-center",
       });
-      navigate("/CheckOut/paymentSuccess");
+      navigate("/MyShops/CheckOut/paymentSuccess");
     } catch (error) {
       console.error("Failed to place order:", error);
       setError("Failed to place order. Please try again later.");

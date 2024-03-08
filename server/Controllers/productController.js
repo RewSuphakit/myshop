@@ -115,17 +115,17 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    let image = null; // กำหนดค่าเริ่มต้นของ image เป็น null
+    let image = null; 
 
     const productId = parseInt(req.params.id);
     const { name, description, price, stock_quantity, category_id } = req.body;
 
-    // Validate data
+
     if (!name || !description || !price || isNaN(price) || !stock_quantity || isNaN(stock_quantity) || category_id === null) {
       return res.status(400).json({ error: 'Invalid data provided' });
     }
 
-    // Retrieve the existing product
+
     const existingProduct = await prisma.products.findUnique({
       where: { product_id: productId }
     });
@@ -134,10 +134,9 @@ exports.update = async (req, res) => {
       return res.status(404).json({ error: 'Product not found' });
     }
 
-    if (req.file) { // ตรวจสอบว่ามีการอัพโหลดรูปภาพใหม่หรือไม่
-      image = req.file.filename; // กำหนดค่าของ image เป็นชื่อไฟล์ของรูปภาพใหม่
+    if (req.file) {
+      image = req.file.filename; 
       
-      // ลบไฟล์รูปภาพเดิมออกจากไดเรกทอรี uploads
       if (existingProduct.image) {
         fs.unlinkSync(`uploads/${existingProduct.image}`);
       }
@@ -148,16 +147,15 @@ exports.update = async (req, res) => {
       data: {
         name,
         description,
-        updated_at: new date(),
+        updated_at: new Date(), 
         price: parseFloat(price),
         stock_quantity: parseInt(stock_quantity),
         image: image || existingProduct.image, 
-        Category: {
+        Category: { 
           connect: { category_id: parseInt(category_id) }
         }
       },
     });
-
     res.json(updatedProduct);
   } catch (err) {
     console.error(err);
